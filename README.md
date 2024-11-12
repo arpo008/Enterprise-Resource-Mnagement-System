@@ -20,7 +20,7 @@ The system utilizes a class-based structure to define user roles and their inter
 - **Admin, HR Manager, Product Manager, Shop Manager**: Classes derived from User, each with methods tailored to their responsibilities.
 - **Product and Task**: Essential entities managed by user roles through specific class methods.
 
-![Class Diagram](\Resources\Class_Daigram.jpg) 
+![Class Diagram](/Resources/Class_Daigram.jpg) 
 
 ### Architectural Overview
 - **Backend**: Node.js with Express framework.
