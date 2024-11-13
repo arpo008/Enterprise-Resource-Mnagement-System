@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body >
+    <section>
+    <div class="navbar bg-base-100 h-[100px] bg-slate-200 m-3  rounded-lg">
+        <div class="navbar-start">
+          <div class="dropdown">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h7" />
+              </svg>
+            </div>
+            <ul
+              tabindex="0"
+              class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+              <li><a>Home</a></li>
+              <li><a>Portfolio</a></li>
+              <li><a>About</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="navbar-center">
+          <a href="dashboard.html" class="btn btn-ghost text-3xl font-bold  shadow-2xl">ERPS</a>
+        </div>
+        <div class="navbar-end  ">
+        <div class=" w-24 mr-10 border-2 shadow-lg rounded-lg text-center"><a href="login.html" class=" font-bold text-xl ">Login</a></div>
+            
+        </div>
+      </div>
+</section>
+    
+<div class="flex items-center justify-center min-h-screen bg-gradient-to-r from-gray-300 to-yellow-300">
+    <form action="" class="w-full max-w-md bg-white p-8 rounded-xl shadow-2xl relative">
+        <!-- Decorative circle in the background -->
+        <div class="absolute -top-10 -right-10 bg-purple-400 rounded-full w-32 h-32 opacity-20 transform rotate-45"></div>
+
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Welcome Back</h2>
+        <p class="text-center text-gray-600 mb-6">Login to your account</p>
+
+        <div class="mb-4">
+            <label for="email" class="block text-sm font-semibold text-gray-700">Email</label>
+            <input type="email" id="email" name="email" required
+                   class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm"/>
+        </div>
+
+        <div class="mb-6">
+            <label for="password" class="block text-sm font-semibold text-gray-700">Password</label>
+            <input type="password" id="password" name="password" required
+                   class="w-full px-4 py-2 mt-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-sm"/>
+            <a href="#" class="text-sm text-purple-500 hover:underline float-right mt-1">Forgot password?</a>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 transition duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-opacity-50">
+            Login
+        </button>
+
+        <div class="text-center p-5 font-semibold"><a href="index.html">Home</a></div>
+    </div>
+</body>
+</html>
