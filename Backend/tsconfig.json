@@ -6,8 +6,17 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "sourceMap": true,
+    "rootDir": "./src"
   },
-  "include": ["src/**/*.ts"],
+  "typedocOptions": {
+    "entryPoints": ["src/app.ts"],
+    "out": "docs",
+    "name": "ERPS DOCS",
+    "theme": "default",
+    "excludePrivate": true
+  },
+  "include": ["src/**/*.ts", "src/queries/userQueries.ts"],
   "exclude": ["node_modules"]
 }
