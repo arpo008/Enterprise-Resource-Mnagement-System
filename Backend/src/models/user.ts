@@ -41,6 +41,7 @@ export class User {
   telephone: string;
   age: number;
   salary: number;
+  password: string;  // Adding password property to the User class
   image: Buffer | null;  // Assuming the image is stored as a binary data
   role: string;
 
@@ -53,6 +54,7 @@ export class User {
       telephone: string = '',
       age: number = 0,
       salary: number = 0.0,
+      password: string = '',  // Default password value
       image: Buffer | null = null,
       role: string = 'user'
   ) {
@@ -65,6 +67,7 @@ export class User {
       this.telephone = telephone;
       this.age = age;
       this.salary = salary;
+      this.password = password;  // Assigning the password
       this.image = image;
       this.role = role;
   }
@@ -126,11 +129,16 @@ export class UserBuilder {
       this.user.salary = salary;
       return this;
   }
-
+    
   setImage(image: Buffer): UserBuilder {
       this.user.image = image;
       return this;
   }
+
+  setPassword(password: string): UserBuilder {
+    this.user.password = password;
+    return this;
+  }   
 
   setRole(role: string): UserBuilder {
       this.user.role = role;

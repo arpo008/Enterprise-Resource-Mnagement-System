@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.insertNewUser = exports.getAllUsers = exports.getUserById = void 0;
+exports.loginUser = exports.insertNewUser = exports.getAllUsers = exports.getUserById = void 0;
 const getUserById = `
   SELECT * FROM users WHERE id = $1;
 `;
@@ -15,4 +15,8 @@ const insertNewUser = `
   RETURNING *;
 `;
 exports.insertNewUser = insertNewUser;
+const loginUser = `
+  SELECT * FROM users WHERE user_id = $1;
+`;
+exports.loginUser = loginUser;
 //# sourceMappingURL=userQueries.js.map

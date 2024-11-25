@@ -18,10 +18,14 @@
 import { Router } from 'express';
 import { UserController } from '../controllers/userController';
 import { addUserService } from '../services/addUserService';
+import { logInService } from '../services/logInService';
+import { LoginController } from '../controllers/loginController';
+
 
 const router = Router();
 const userService = new addUserService();
 const userController = new UserController(userService);
+const loginController = new LoginController();
 
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -29,9 +33,13 @@ router.post('/addNewUser', (req, res) => {
   userController.addUser(req, res);
 });
 
+router.post('/login', (req, res) => {
+  loginController.logIn(req, res);
+});
+
 
 router.get('/', (req, res) => {
-    res.send('hi');
+    res.send('-----------------hi-----------------');
   });
 
 export default router;

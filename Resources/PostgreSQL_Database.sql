@@ -9,6 +9,7 @@ CREATE TABLE users (
     age INT,
     salary DECIMAL(10, 2),
     image bytea,
+    password VARCHAR(255) NOT NULL,
     role VARCHAR(100)  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
 );
 
@@ -67,11 +68,12 @@ CREATE TABLE attendance (
     updated_at TIMESTAMP DEFAULT NOW()
 );
 
-INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, image, role)
+INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, image, role, password)
 VALUES 
-('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, '\\x89504e470d0a1a0a...', 'Admin'),
-('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, '\\x89504e470d0a1a0a...', 'HR Manager'),
-('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, '\\x89504e470d0a1a0a...', 'Product Manager');
+('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, '\\x89504e470d0a1a0a...', 'Admin', '123'),
+('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, '\\x89504e470d0a1a0a...', 'HR Manager', '123'),
+('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, '\\x89504e470d0a1a0a...', 'Product Manager', '123');
+
 
 INSERT INTO tasks (assigned_to, assigned_by, description, created_at, due_date, status)
 VALUES 
