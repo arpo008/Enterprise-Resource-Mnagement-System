@@ -34,6 +34,7 @@ router.post('/addNewUser', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
+  console.log("print hoisi!!!");
   loginController.logIn(req, res);
 });
 
