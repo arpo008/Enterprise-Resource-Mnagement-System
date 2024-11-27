@@ -16,9 +16,19 @@ const loginUser: string = `
   SELECT * FROM users WHERE user_id = $1;
 `;
 
+const findUserQ: string = `
+  SELECT * FROM users WHERE user_id = $1;
+`;
+
+const deleteUserQ: string = `
+  DELETE FROM users WHERE user_id = $1 RETURNING *;
+`;
+
 export {  
   getUserById,
   getAllUsers,
   insertNewUser,
-  loginUser
+  loginUser,
+  findUserQ,
+  deleteUserQ
 };
