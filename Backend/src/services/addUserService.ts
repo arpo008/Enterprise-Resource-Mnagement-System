@@ -16,15 +16,21 @@
  * @returns {Promise<User>} - The newly created user object.  
  */
 
-import db from '../database/index';
+import DatabaseSingleton from '../database/index';
 import { User } from '../models/user';
 import { insertNewUser } from '../queries/userQueries';
 import bcrypt from 'bcrypt';
+import { Response } from 'express';
 
 export class addUserService {
     async addUser(user: User): Promise<User | null> {
         const { first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role} = user;
         
+        // if (role === 'Admin') {
+        //     res.status(401).json({ message: 'Admin can not be added' });
+        //     return null;
+        // }
+
         try {
             // Hash the password before inserting into the database
             const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds are typically 10 or 12
@@ -32,6 +38,7 @@ export class addUserService {
             // Include the hashed password in the values array that will be sent to the database
             const values = [first_name, last_name, address, gender, dob, telephone, age, salary, image, hashedPassword, role];
             
+            const db = DatabaseSingleton.getInstance().getClient();
             const result = await db.query(insertNewUser, values);
         
             // Return the user if a row is inserted and available

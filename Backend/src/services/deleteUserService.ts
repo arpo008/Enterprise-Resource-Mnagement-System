@@ -1,7 +1,7 @@
 import { deleteUserQ } from "../queries/userQueries";
 import { Request, Response } from 'express';
 
-import db from '../database/index';
+import DatabaseSingleton from '../database/index';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
@@ -20,6 +20,7 @@ export class deleteUserService {
             const parsedBody = deleteUserSchema.parse(req.body);
             const { user_id } = parsedBody;
 
+            const db = DatabaseSingleton.getInstance().getClient();
             const result = await db.query(deleteUserQ, [user_id]);
 
             if (result.rows.length === 0) {

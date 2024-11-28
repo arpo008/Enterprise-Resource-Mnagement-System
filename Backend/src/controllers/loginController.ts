@@ -21,19 +21,22 @@ export class LoginController {
                     // Handle other errors that might occur during the login process
                     res.status(500).json({ message: result.error });
                 }
+            } else {
+
+                // If login is successful, return the appropriate data
+                res.cookie('authToken', result.web_tokens, {
+                    httpOnly: true,    // The cookie is not accessible via client-side JS
+                    secure: process.env.NODE_ENV !== 'development',  // Use secure in production
+                    maxAge: 3600000    // Cookie expiration time in milliseconds
+                });
+                
+                res.status(200).json({
+                    message: result.message,
+                    web_tokens: result.web_tokens
+                });
             }
 
-            // If login is successful, return the appropriate data
-            res.cookie('authToken', result.web_tokens, {
-                httpOnly: true,    // The cookie is not accessible via client-side JS
-                secure: process.env.NODE_ENV !== 'development',  // Use secure in production
-                maxAge: 3600000    // Cookie expiration time in milliseconds
-            });
             
-            res.status(200).json({
-                message: result.message,
-                web_tokens: result.web_tokens
-            });
         } catch (error) {
             console.error('Server Error:', error);
             // Capture and return any unexpected errors

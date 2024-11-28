@@ -1,5 +1,5 @@
 
-import db from '../database/index';
+import DatabaseSingleton from '../database/index';
 import bcrypt from 'bcrypt';
 import { loginUser } from '../queries/userQueries';
 import { generateToken } from '../services/handleJWTService';
@@ -7,6 +7,7 @@ import { Request, Response } from 'express';
 
 export const logInService = async (user_id: number, providedPassword: string) => {
     try {
+        const db = DatabaseSingleton.getInstance().getClient();
         const result = await db.query(loginUser, [user_id]);
 
         if (result.rows.length === 0) {

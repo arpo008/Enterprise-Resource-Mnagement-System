@@ -22,7 +22,11 @@ import { logInService } from '../services/logInService';
 import { LoginController } from '../controllers/loginController';
 import { FindUserController } from '../controllers/FindUserController';
 import { DeleteUserController } from '../controllers/DeleteUserController';
+import { AddIncrementController } from '../controllers/AddIncrementController';
+
+
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
+import { add } from 'date-fns';
 
 
 const router = express.Router();
@@ -31,6 +35,7 @@ const userController = new UserController(userService);
 const loginController = new LoginController();
 const findUserController = new FindUserController();
 const deleteUserController = new DeleteUserController();
+const addIncrementController = new AddIncrementController();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -39,7 +44,6 @@ router.post('/addNewUser', (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-  console.log("print hoisi!!!");
   loginController.logIn(req, res);
 });
 
@@ -49,6 +53,10 @@ router.post('/findUser', hrManagerValidity, (req, res) => {
 
 router.post('/deleteUser', hrManagerValidity, (req, res) => {
   deleteUserController.deleteUser(req, res);
+});
+
+router.post('/addIncrement', hrManagerValidity, (req, res) => {
+  addIncrementController.addIncrement(req, res);
 });
 
 router.get('/', (req, res) => {

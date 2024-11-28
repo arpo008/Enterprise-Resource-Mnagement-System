@@ -24,11 +24,19 @@ const deleteUserQ: string = `
   DELETE FROM users WHERE user_id = $1 RETURNING *;
 `;
 
+const updateUserSalary: string = `
+  UPDATE users
+  SET salary = $1
+  WHERE user_id = $2
+  RETURNING *;
+`;
+
 export {  
   getUserById,
   getAllUsers,
   insertNewUser,
   loginUser,
   findUserQ,
-  deleteUserQ
+  deleteUserQ,
+  updateUserSalary
 };
