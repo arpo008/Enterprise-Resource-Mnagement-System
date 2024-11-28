@@ -13,7 +13,8 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
         "user_id": email,
         "password": password
     };
-  try {
+
+    try {
         console.log(email);
         // Make the API call using fetch
         const response = await fetch(API_URL, {
@@ -31,6 +32,8 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
 
             // Display success message or redirect
             alert('Login successful!');
+            // Redirect to dashboard.html
+            window.location.href = 'dashboard.html';
         } else {
             const errorData = await response.json();
             console.error('Error:', errorData);
