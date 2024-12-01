@@ -1,69 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Form</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(to bottom right, #4a90e2, #8e44ad);
-    }
-
-    .login-container {
-      background-color: #fff;
-      padding: 4rem 2rem;
-      width: 400px;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-      text-align: center;
-    }
-
-    .login-container h1 {
-      margin-bottom: 2rem;
-      font-size: 2.2rem;
-    }
-
-    .login-container input {
-      width: calc(100% - 20px); /* Ensure inputs fit perfectly inside the form */
-      padding: 15px;
-      margin: 1rem 0;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-    }
-
-    .login-container button {
-      width: 50%;
-      padding: 15px;
-      margin: 2rem 0;
-      border: none;
-      border-radius: 6px;
-      background: linear-gradient(to right, #4a90e2, #8e44ad);
-      color: white;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .login-container button:hover {
-      opacity: 0.9;
-    }
-
-    .login-container a {
-      text-decoration: none;
-      color: #4a90e2;
-      font-size: 1rem;
-    }
-
-    .login-container a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
   <script> 
     function redirectToDashboard(event) { 
       event.preventDefault();
@@ -71,20 +13,25 @@
     } 
   </script>
 </head>
-<body>
-  <div class="login-container">
-    <h1>LOGIN</h1>
-    <form>
-      <input type="text" placeholder="Username">
-      <input type="password" placeholder="Password">
-      <button type="submit">LOGIN</button>
-      <p>
-        <a href="#">Forgot Password?</a>
-      </p>
-      <p>
-        Don't have an account? <a href="#">Sign up</a>
-      </p>
+<body class="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-500 to-pink-300">
+  <div class="bg-white p-16 rounded-lg shadow-lg w-3/12  text-center">
+    <h1 class="text-5xl font-bold mb-10">LOGIN</h1>
+    <form onsubmit="redirectToDashboard(event)">
+      <div class="mb-8">
+        <input type="text" placeholder="Username" class="input input-bordered w-full h-14 text-xl">
+      </div>
+      <div class="mb-8">
+        <input type="password" placeholder="Password" class="input input-bordered w-full h-14 text-xl">
+      </div>
+      <button type="submit" class="btn btn-primary w-full h-14 text-xl">LOGIN</button>
+      <div class="mt-8">
+        <a href="#" class="link link-primary text-xl">Forgot Password?</a>
+      </div>
+      <div class="mt-6 text-xl">
+        Don't have an account? <a href="#" class="link link-primary">Sign up</a>
+      </div>
     </form>
   </div>
 </body>
 </html>
+
