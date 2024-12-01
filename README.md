@@ -1,3 +1,11 @@
+# Software Engineering
+## section: 03 
+# Group: ERPS
+## Md Tanvirul Islam Niloy - 221 2806 042
+## Anindita Das Mishi - 221 1364 642
+## Arpo Roy - 221 2656 042
+## Raiyan Masood Hriddho -193 1117 042
+
 # Enterprise Resource Management System (ERP)
 
 ## Overview
@@ -36,3 +44,12 @@ The system utilizes a class-based structure to define user roles and their inter
 
 ### Setup
 Clone the repository and install the dependencies.
+
+# Design Pattern 
+## Singleton design pattern. (For db)
+## Abstract factory design pattern.( extending the employee)
+## Builder design pattern.(for building the user)
+## Observer Design pattern. (employee observing the shop manager)
+## strategy design pattern. (Adding the bag in the cart)
+## Composite Design Pattern. (Extending the product class)
+
