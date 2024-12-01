@@ -57,9 +57,9 @@
                     <label for="gender" class="block text-sm font-medium">Gender</label>
                     <select id="gender" name="gender" class="select select-bordered w-full" required>
                         <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="male">M</option>
+                        <option value="female">F</option>
+                        <option value="other">O</option>
                     </select>
                 </div>
                 <div>
@@ -83,8 +83,16 @@
                     <input type="password" id="password" name="password" class="input input-bordered w-full" required />
                 </div>
                 <div>
-                    <label for="role" class="block text-sm font-medium">Role</label>
-                    <input type="text" id="role" name="role" class="input input-bordered w-full" required />
+                    <label for="role" class="block text-sm font-medium" placeholder="Role">Role</label>
+                    <select id="role" name="role" class="select select-bordered w-full" required>
+                        <option value="HR Manager">HR Manager</option>
+                        <option value="Shop Manager">Shop Manager</option>
+                        <option value="Product Manager">Product Manager</option>
+                        <option value="Seller">Seller</option>
+                        <option value="Guard">Guard</option>
+                        <option value="Cleaner">Cleaner</option>
+                        <option value="Worker">Worker</option>
+                    </select>
                 </div>
                 <div>
                     <label for="image" class="block text-sm font-medium">Image</label>

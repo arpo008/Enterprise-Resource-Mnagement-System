@@ -18,12 +18,12 @@
     <h1 class="text-5xl font-bold mb-10">LOGIN</h1>
     <form onsubmit="redirectToDashboard(event)">
       <div class="mb-8">
-        <input type="text" placeholder="Username" class="input input-bordered w-full h-14 text-xl">
+        <input type="text" id="user_id" placeholder="Username" class="input input-bordered w-full h-14 text-xl">
       </div>
       <div class="mb-8">
-        <input type="password" placeholder="Password" class="input input-bordered w-full h-14 text-xl">
+        <input type="password" id="password" placeholder="Password" class="input input-bordered w-full h-14 text-xl">
       </div>
-      <button type="submit" class="btn btn-primary w-full h-14 text-xl">LOGIN</button>
+      <button type="submit" class="btn btn-primary w-full h-14 text-xl ">LOGIN</button>
       <div class="mt-8">
         <a href="#" class="link link-primary text-xl">Forgot Password?</a>
       </div>
@@ -32,6 +32,7 @@
       </div>
     </form>
   </div>
+  <script src="index.js"></script>
 </body>
 </html>
 

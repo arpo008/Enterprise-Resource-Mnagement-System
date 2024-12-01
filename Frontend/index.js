@@ -5,17 +5,17 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
     // Define the API URL
     const API_URL = 'http://localhost:3000/api/login'; // Replace with your API URL
 
-    const email = document.querySelector('#email').value;
+    const user_id = document.querySelector('#user_id').value;
     const password = document.querySelector('#password').value;
 
     // Create the JSON data to send
     const jsonData = {
-        "user_id": email,
-        "password": password
+        "user_id": user_id,
+        "password": String(password)
     };
 
     try {
-        console.log(email);
+        console.log(user_id);
         // Make the API call using fetch
         const response = await fetch(API_URL, {
             method: 'POST', // HTTP method
@@ -28,11 +28,11 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
         // Handle the response
         if (response.ok) {
             const data = await response.json();
-            console.log('Success:', data);
-
+            
             // Display success message or redirect
-            alert('Login successful!');
+            alert(data.web_tokens);
             // Redirect to dashboard.html
+            
             window.location.href = 'dashboard.html';
         } else {
             const errorData = await response.json();

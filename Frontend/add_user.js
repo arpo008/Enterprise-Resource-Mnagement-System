@@ -24,6 +24,7 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
         "age": age,
         "salary": salary,
         "password": password,
+        "image": null,
         "role": "Seller", // Example, assuming this is static or hardcoded
     };
 
