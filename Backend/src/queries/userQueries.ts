@@ -31,6 +31,28 @@ const updateUserSalary: string = `
   RETURNING *;
 `;
 
+const logoutQuery: string = `
+  UPDATE attendance
+  SET 
+      clock_out_time = CURRENT_TIMESTAMP,  -- Set clock_out_time to current time
+      status = 'completed'  -- Change status to 'completed'
+  WHERE user_id = $1  -- Replace $1 with the provided user_id
+    AND date = CURRENT_DATE  -- Ensure the attendance record is for today
+  AND status = 'active';  -- Only update if the user is still logged in
+
+`;
+
+const loginQuery: string = `
+  INSERT INTO attendance (user_id, clock_in_time, status)
+  VALUES ($1, CURRENT_TIMESTAMP, $2);
+`;
+
+const getAttendance: string = `
+  SELECT * FROM attendance
+  WHERE user_id = $1
+    AND date BETWEEN $2 AND $3;
+`;
+
 export {  
   getUserById,
   getAllUsers,
@@ -38,5 +60,8 @@ export {
   loginUser,
   findUserQ,
   deleteUserQ,
-  updateUserSalary
+  updateUserSalary,
+  logoutQuery,
+  loginQuery,
+  getAttendance, 
 };

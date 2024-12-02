@@ -1,27 +1,27 @@
-import { deleteUserQ } from "../queries/userQueries";
-import { Request, Response } from 'express';
 
-import DatabaseSingleton from '../database/index';
+import { Request, Response } from 'express';
 import { verifyToken } from '../services/handleJWTService'; 
 import { UserBuilder } from '../models/user';
 import { Admin } from '../models/Admin';
-import bcrypt from 'bcrypt';
+import { HRmanager } from '../models/HRmanager';
 import { z } from 'zod';
 
-const deleteUserSchema = z.object({
-    "user_id": z.number().int(), // Ensure user_id is a number
+const getAttendenceSchema = z.object({
+    "user_id": z.number().int(),
+    "Starting": z.string(),
+    "Ending": z.string(),
 });
 
-export class deleteUserService {
+export class getAttendeceService {
 
-    async deleteUser (req: Request, res: Response): Promise<void> {
+    async getAttendece (req: Request, res: Response): Promise<void> {
 
         try {
 
             // authorize user by token  
 
-            const parsedBody = deleteUserSchema.parse(req.body);
-            const { user_id } = parsedBody;
+            const parsedBody = getAttendenceSchema.parse(req.body);
+            const { user_id, Starting, Ending } = parsedBody;
 
             const token = req.headers.authorization?.split(' ')[1];
              
@@ -40,9 +40,17 @@ export class deleteUserService {
                     .setId(tokenVerified.user_id)
                     .setRole(tokenVerified.role);
 
-                const admin = new Admin (adminBuilder.build());
+                let admin;
+                if ( tokenVerified.role === 'Admin' ) {
+                    admin = new Admin(adminBuilder.build());
+                } else if ( tokenVerified.role === 'HR Manager' ) {
+                    admin = new HRmanager(adminBuilder.build());
+                } else {
+                    res.status(401).json({ message: 'Unauthorized' });
+                    return;
+                }
 
-                admin.removeUser(user_id).then((result) => {
+                admin.getAttendece(user_id, Starting, Ending ).then((result) => {
                     res.status(200).json(result);
 
                 }).catch((error) => {

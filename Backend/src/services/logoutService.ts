@@ -1,4 +1,4 @@
-import { deleteUserQ } from "../queries/userQueries";
+import { logoutQuery } from "../queries/userQueries";
 import { Request, Response } from 'express';
 
 import DatabaseSingleton from '../database/index';
@@ -8,25 +8,16 @@ import { Admin } from '../models/Admin';
 import bcrypt from 'bcrypt';
 import { z } from 'zod';
 
-const deleteUserSchema = z.object({
-    "user_id": z.number().int(), // Ensure user_id is a number
-});
 
-export class deleteUserService {
+export class logoutService {
 
-    async deleteUser (req: Request, res: Response): Promise<void> {
+    async logout (req: Request, res: Response): Promise<void> {
 
         try {
-
-            // authorize user by token  
-
-            const parsedBody = deleteUserSchema.parse(req.body);
-            const { user_id } = parsedBody;
 
             const token = req.headers.authorization?.split(' ')[1];
              
             if ( !token ) {
-
                 res.status(401).json({ message: 'Login First' });
             } else {
 
@@ -36,18 +27,16 @@ export class deleteUserService {
                     return;
                 }
 
-                const adminBuilder = new UserBuilder()
-                    .setId(tokenVerified.user_id)
-                    .setRole(tokenVerified.role);
+                const database = DatabaseSingleton.getInstance();
+                const client = database.getClient();
 
-                const admin = new Admin (adminBuilder.build());
+                const result = await client.query(logoutQuery, [tokenVerified.user_id]);
 
-                admin.removeUser(user_id).then((result) => {
-                    res.status(200).json(result);
-
-                }).catch((error) => {
-                    res.status(500).json({ message: error.message });
-                });
+                if ( result.rowCount == 0 ) {
+                    res.status(404).json({ message: 'No active session found' });
+                } else {
+                    res.status(200).json({ message: 'Logged out successfully' });
+                }
             }
 
         } catch (error: any) {

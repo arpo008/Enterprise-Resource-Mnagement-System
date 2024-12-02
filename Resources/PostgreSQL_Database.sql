@@ -64,15 +64,13 @@ CREATE TABLE attendance (
     clock_out_time TIMESTAMP, -- Time when the employee logs out
     total_hours DECIMAL(5, 2) GENERATED ALWAYS AS (EXTRACT(EPOCH FROM (clock_out_time - clock_in_time)) / 3600) STORED, -- Total hours worked
     status VARCHAR(50) DEFAULT 'active', -- 'active' means the employee is still logged in, 'completed' means they've logged out
-    created_at TIMESTAMP DEFAULT NOW(),
-    updated_at TIMESTAMP DEFAULT NOW()
 );
 
 INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, image, role, password)
 VALUES 
-('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, '\\x89504e470d0a1a0a...', 'Admin', '123'),
-('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, '\\x89504e470d0a1a0a...', 'HR Manager', '123'),
-('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, '\\x89504e470d0a1a0a...', 'Product Manager', '123');
+('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, '\\x89504e470d0a1a0a...', 'Admin', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
+('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, '\\x89504e470d0a1a0a...', 'HR Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
+('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, '\\x89504e470d0a1a0a...', 'Product Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06');
 
 
 INSERT INTO tasks (assigned_to, assigned_by, description, created_at, due_date, status)

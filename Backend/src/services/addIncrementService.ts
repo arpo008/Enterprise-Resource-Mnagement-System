@@ -1,5 +1,12 @@
-import { updateUserSalary, findUserQ } from "../queries/userQueries";
+// Purpose: Service for adding increment to user's salary.
 import { Request, Response } from 'express';
+import { User, UserBuilder } from '../models/user';
+import { Admin} from '../models/Admin';
+import { HRmanager} from '../models/HRmanager';
+import { ProductManager} from '../models/ProductManager';
+import { ShopManager} from '../models/ShopManager';
+import { EmployeeFactory } from '../models/shopListener';
+import { verifyToken } from '../services/handleJWTService'; 
 
 import DatabaseSingleton from '../database/index';
 import bcrypt from 'bcrypt';
@@ -16,42 +23,41 @@ export class addIncrementService {
 
         try {
 
-            // authorize user by token  
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if ( !token ) {
+                res.status(401).json({ message: 'Login First' });
+                return;
+            }
+
+            const tokenVerified = verifyToken(token);
+
+            if ( tokenVerified == null ) {
+                res.status(401).json({ message: 'Invalid Token' });
+                return;
+            }
 
             const parsedBody = deleteUserSchema.parse(req.body);
             let { user_id, increment } = parsedBody;
 
-            const db = DatabaseSingleton.getInstance().getClient();
-            const userDetails = await db.query(findUserQ, [user_id]);
 
-            if (userDetails.rows.length === 0) {
-                res.status(404).json({ message: 'User not found' });
-                return;
-            }
-
-            let salary = Number(userDetails.rows[0].salary);
+            const userBuilder = new UserBuilder()
+                    .setId(tokenVerified.user_id)
+                    .setRole(tokenVerified.role);
             
-            increment /= 100;
-            let temp = salary * increment;
-            salary = salary + temp;
-            if (salary < 0) {
-                salary = 1;
+            let admin;
+            if ( tokenVerified.role === 'Admin' ) {
+                admin = new Admin (userBuilder.build());
+            } else if ( tokenVerified.role === 'HR Manager' ) {
+                admin = new HRmanager(userBuilder.build());
             }
 
-            const result = await db.query(updateUserSalary, [salary, user_id]);
-
-            if (result.rows.length === 0) {
-                res.status(404).json({ message: 'User not found' });
-                return;
-            } 
-
-            const user = result.rows[0];
-
-            if (result.rows.length === 0) {
-                res.status(404).json({ message: 'User not found' });
-            } else {
-                res.status(200).json({ message: 'New salary is ' + user.salary + 'BDT'});
+            admin?.addIncrement(user_id, increment).then((result) => {
+                res.status(200).json(result);
             }
+            ).catch((error) => {
+                res.status(500).json({ message: error.message });
+            });
 
         } catch (error: any) {
             console.error('Error executing query:', error.message);

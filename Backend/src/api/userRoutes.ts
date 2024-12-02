@@ -23,7 +23,8 @@ import { LoginController } from '../controllers/loginController';
 import { FindUserController } from '../controllers/FindUserController';
 import { DeleteUserController } from '../controllers/DeleteUserController';
 import { AddIncrementController } from '../controllers/AddIncrementController';
-
+import { LogoutController } from '../controllers/LogoutController';
+import { GetAttendenceController } from '../controllers/GetAttendenceController';
 
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
 import { add } from 'date-fns';
@@ -36,10 +37,12 @@ const loginController = new LoginController();
 const findUserController = new FindUserController();
 const deleteUserController = new DeleteUserController();
 const addIncrementController = new AddIncrementController();
+const logoutController = new LogoutController();
+const getAttendenceController = new GetAttendenceController();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
-router.post('/addNewUser', (req, res) => {
+router.post('/addNewUser', hrManagerValidity, (req, res) => {
   userController.addUser(req, res);
 });
 
@@ -57,6 +60,14 @@ router.post('/deleteUser', hrManagerValidity, (req, res) => {
 
 router.post('/addIncrement', hrManagerValidity, (req, res) => {
   addIncrementController.addIncrement(req, res);
+});
+
+router.post('/logout', (req, res) => {
+  logoutController.logout(req, res);
+});
+
+router.post('/getAttendence', (req, res) => {
+  getAttendenceController.getAttendence(req, res);
 });
 
 router.get('/', (req, res) => {

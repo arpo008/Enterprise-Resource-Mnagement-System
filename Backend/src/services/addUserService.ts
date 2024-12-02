@@ -1,48 +1,82 @@
-/**
- * @module addUserService
- * @description This module defines the addUserService class, which handles user-related database operations.
- * 
- * @class addUserService
- * @description Service class for handling user-related database operations.
- * 
- * @method addUser
- * @description Adds a new user to the database.
- * @param {User} user - The user object containing user details.
- * @returns {Promise<User>} - The newly created user object.
- * 
- * @method addUser
- * @description Adds a new user to the database.
- * @param {User} user - The user object containing user details.
- * @returns {Promise<User>} - The newly created user object.  
- */
 
 import DatabaseSingleton from '../database/index';
-import { User } from '../models/user';
-import { insertNewUser } from '../queries/userQueries';
+import { User, UserBuilder } from '../models/user';
+import { Admin} from '../models/Admin';
+import { HRmanager} from '../models/HRmanager';
+import { ProductManager} from '../models/ProductManager';
+import { ShopManager} from '../models/ShopManager';
+import { EmployeeFactory } from '../models/shopListener';
+import { verifyToken } from '../services/handleJWTService'; 
 import bcrypt from 'bcrypt';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 export class addUserService {
-    async addUser(user: User): Promise<User | null> {
-        const { first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role} = user;
-        
-        // if (role === 'Admin') {
-        //     res.status(401).json({ message: 'Admin can not be added' });
-        //     return null;
-        // }
+    async addUser(req: Request, res: Response): Promise<void> {
 
         try {
-            // Hash the password before inserting into the database
-            const hashedPassword = await bcrypt.hash(password, 10); // Salt rounds are typically 10 or 12
+            const token = req.headers.authorization?.split(' ')[1];
+             
+            if ( req.body instanceof User ) {
 
-            // Include the hashed password in the values array that will be sent to the database
-            const values = [first_name, last_name, address, gender, dob, telephone, age, salary, image, hashedPassword, role];
+                res.status(400).json({ message: 'Invalid request body' });
+            } else if ( !token ) {
+
+                res.status(401).json({ message: 'Login First' });
+            } else {
+
+                const tokenVerified = verifyToken(token);
+                if ( tokenVerified == null ) {
+                    res.status(401).json({ message: 'Invalid Token' });
+                    return;
+                }
+
+                const hashedPassword = await bcrypt.hash(req.body.password, 10);
+                const userBuilder = new UserBuilder()
+                    .setFirstName(req.body.first_name)
+                    .setLastName(req.body.last_name)
+                    .setAddress(req.body.address)
+                    .setGender(req.body.gender)
+                    .setDOB(new Date(req.body.dob))  // Ensuring date conversion
+                    .setTelephone(req.body.telephone)
+                    .setAge(req.body.age)
+                    .setSalary(req.body.salary)
+                    .setImage(req.body.image)  // Handle binary data as necessary
+                    .setPassword(hashedPassword) 
+                    .setRole(req.body.role)
+
+                const adminBuilder = new UserBuilder()
+                    .setId(tokenVerified.user_id)
+                    .setRole(tokenVerified.role);
+
+                const admin = new Admin (adminBuilder.build());
+                let newUser;
+
+                if ( req.body.role === 'HR Manager' ) {
+                    newUser = new HRmanager(userBuilder.build());  
+                } else if ( req.body.role === 'Admin' ) {
+                    res.status(400).json({ message: 'Admin cannot be added' });
+                    return;
+                } else if ( req.body.role === 'Product Manager' ) {
+                    newUser = new ProductManager(userBuilder.build());
+                } else if ( req.body.role === 'Shop Manager' ) {
+                    newUser = new ShopManager(userBuilder.build());
+                } else if ( req.body.role === 'Seller' || req.body.role === 'Cleaner' || req.body.role === 'Guard' || req.body.role === 'Worker' ) {
+                    const employeeFactory = new EmployeeFactory();
+                    newUser = employeeFactory.getEmployee(userBuilder.build());
+                } else {
+                    res.status(400).json({ message: 'Invalid role' });
+                    return ;
+                }
+                
+                admin.addNewUser(newUser).then((result) => {
+                    if (result) {
+                        res.status(201).json({ result});
+                    } else {
+                        res.status(400).json({ 'message': 'User could not be created' });
+                    }
+                });
+            }
             
-            const db = DatabaseSingleton.getInstance().getClient();
-            const result = await db.query(insertNewUser, values);
-        
-            // Return the user if a row is inserted and available
-            return result.rows?.[0] || null;
         } catch (error) {
             if (error instanceof Error) {
                 console.error('Error executing query:', error.message);
