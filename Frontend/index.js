@@ -1,44 +1,42 @@
-// Select the form element and listen for submit events
+// Select the login button and listen for click events
 document.querySelector('button[type="submit"]').addEventListener('click', async (event) => {
-    event.preventDefault(); // Prevent form submission reload
+    event.preventDefault(); // Prevent default form submission
 
     // Define the API URL
     const API_URL = 'http://localhost:3000/api/login'; // Replace with your API URL
 
+    // Collect input values
     const user_id = document.querySelector('#user_id').value;
     const password = document.querySelector('#password').value;
 
-    // Create the JSON data to send
+    // Prepare the JSON payload
     const jsonData = {
-        "user_id": user_id,
-        "password": String(password)
+        user_id: user_id,
+        password: String(password),
     };
 
     try {
-        console.log(user_id);
         // Make the API call using fetch
         const response = await fetch(API_URL, {
-            method: 'POST', // HTTP method
+            method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Specify JSON in the request
+                'Content-Type': 'application/json', // Specify JSON in the request
             },
-            body: JSON.stringify(jsonData) // Convert JavaScript object to JSON string
+            body: JSON.stringify(jsonData), // Convert object to JSON string
         });
 
-        // Handle the response
         if (response.ok) {
             const data = await response.json();
-            
-            // Display success message or redirect
-            alert(data.web_tokens);
-            // Redirect to dashboard.html
-            
-            window.location.href = 'dashboard.html';
+
+            // Store the token in localStorage
+            localStorage.setItem('auth_token', data.web_tokens);
+
+            // Display success message and redirect
+            alert('Login successful!');
+            window.location.href = 'dashboard.html'; // Redirect to dashboard
         } else {
             const errorData = await response.json();
             console.error('Error:', errorData);
-
-            // Display error message
             alert('Login failed: ' + errorData.message);
         }
     } catch (error) {
