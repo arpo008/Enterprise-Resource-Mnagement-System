@@ -31,7 +31,7 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
             
             // Display success message or redirect
             alert(data.web_tokens);
-            // Redirect to dashboard.html
+
             
             window.location.href = 'dashboard.html';
         } else {
