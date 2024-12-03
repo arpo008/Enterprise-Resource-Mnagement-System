@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Attendance</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+
+    <!-- Search Attendance Form -->
+    <div class="card w-96 bg-base-100 shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-center mb-4">Search Attendance</h2>
+        <form id="attendanceSearchForm" class="form-control space-y-4">
+            <!-- User ID Input -->
+            <div>
+                <label class="label">
+                    <span class="label-text">User ID</span>
+                </label>
+                <input type="number" id="userId" class="input input-bordered w-full" placeholder="Enter User ID" required />
+            </div>
+
+            <!-- Starting and Ending Dates -->
+            <div>
+                <label class="label">
+                    <span class="label-text">Starting Date</span>
+                </label>
+                <input type="date" id="startingDate" class="input input-bordered w-full" required />
+            </div>
+
+            <div>
+                <label class="label">
+                    <span class="label-text">Ending Date</span>
+                </label>
+                <input type="date" id="endingDate" class="input input-bordered w-full" required />
+            </div>
+
+            <button type="button" onclick="searchAttendance()" class="btn btn-primary w-full mt-4">Search Attendance</button>
+        </form>
+    </div>
+
+    <script src="attendance_serch.js"></script>
+</body>
+</html>

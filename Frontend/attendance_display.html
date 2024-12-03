@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Records</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-gray-300 to-yellow-300 min-h-screen">
+
+    <!-- Table for Attendance Data -->
+    <div class="container mx-auto mt-10 p-6">
+        <h2 class="text-3xl font-semibold text-center mb-6">Attendance Records</h2>
+        <div class="overflow-x-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Date</th>
+                        <th>Clock-in Time</th>
+                        <th>Clock-out Time</th>
+                        <th>Total Hours</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTableBody">
+                    <!-- Attendance rows will be populated here by the script -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="flex justify-center">
+        <button class="btn text-black font-bold text-center flex justi" onclick="window.location.href='Admin.html'">Back</button>
+    </div>
+
+    <script src="attendance_display.js"></script>
+</body>
+</html>

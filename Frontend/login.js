@@ -10,6 +10,8 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
         return;
     }
 
+    console.log('Request Payload:', { user_id, password });
+
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -21,15 +23,17 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
 
         if (response.ok) {
             const data = await response.json();
+            console.log('Login Response:', data);
             alert('Login successful!');
-            localStorage.setItem('auth_token', data.web_tokens); // Save token
+            localStorage.setItem('auth_token', data.web_tokens);
             window.location.href = 'dashboard.html';
         } else {
             const errorData = await response.json();
+            console.error('Login Failed:', errorData);
             alert('Login failed: ' + errorData.message);
         }
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error occurred:', error);
         alert('An error occurred. Please try again.');
     }
 });
