@@ -28,8 +28,7 @@ CREATE TABLE performance_reports (
     reported_by INT REFERENCES users(user_id),
     review_date DATE,
     score INT CHECK (score BETWEEN 0 AND 100),  -- Assuming score is a percentage
-    notes TEXT,
-    UNIQUE (employee_id, review_date)
+    notes TEXT
 );
 CREATE TABLE products (
     product_id SERIAL PRIMARY KEY,
@@ -63,7 +62,7 @@ CREATE TABLE attendance (
     clock_in_time TIMESTAMP, -- Time when the employee logs in
     clock_out_time TIMESTAMP, -- Time when the employee logs out
     total_hours DECIMAL(5, 2) GENERATED ALWAYS AS (EXTRACT(EPOCH FROM (clock_out_time - clock_in_time)) / 3600) STORED, -- Total hours worked
-    status VARCHAR(50) DEFAULT 'active', -- 'active' means the employee is still logged in, 'completed' means they've logged out
+    status VARCHAR(50) DEFAULT 'active' -- 'active' means the employee is still logged in, 'completed' means they've logged out
 );
 
 INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, image, role, password)

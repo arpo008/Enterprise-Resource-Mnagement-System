@@ -25,6 +25,7 @@ import { DeleteUserController } from '../controllers/DeleteUserController';
 import { AddIncrementController } from '../controllers/AddIncrementController';
 import { LogoutController } from '../controllers/LogoutController';
 import { GetAttendenceController } from '../controllers/GetAttendenceController';
+import { PerformanceController } from '../controllers/PerformanceController';
 
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
 import { add } from 'date-fns';
@@ -39,6 +40,7 @@ const deleteUserController = new DeleteUserController();
 const addIncrementController = new AddIncrementController();
 const logoutController = new LogoutController();
 const getAttendenceController = new GetAttendenceController();
+const performanceController = new PerformanceController();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -68,6 +70,10 @@ router.post('/logout', (req, res) => {
 
 router.post('/getAttendence', (req, res) => {
   getAttendenceController.getAttendence(req, res);
+});
+
+router.post('/submitPerformance', (req, res) => {
+  performanceController.submitReport(req, res);
 });
 
 router.get('/', (req, res) => {

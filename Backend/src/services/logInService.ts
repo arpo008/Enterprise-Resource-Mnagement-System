@@ -28,7 +28,7 @@ export const logInService = async (user_id: number, providedPassword: string) =>
             const clockInTime = new Date().toISOString();
             let staus = await client.query(loginQuery, [user_id, 'active']);
 
-            if (staus.rowCount === 0) {
+            if (staus.rows.length === 0) {
                 return { error: 'An error occurred during login' };
             }
 
