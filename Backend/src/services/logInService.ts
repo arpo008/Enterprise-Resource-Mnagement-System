@@ -20,11 +20,17 @@ export const logInService = async (user_id: number, providedPassword: string) =>
         } else {
             let userData = result.rows[0];
             delete userData.password;
+            delete userData.image;
 
             const database = DatabaseSingleton.getInstance();
+<<<<<<< HEAD
             const client = database.getClient();
 
             const clockInTime = new Date().toISOString();
+=======
+            const client = database.getClient();   
+            
+>>>>>>> 6fa3212725685b236cd0b5af781625d5e870dacd
             let staus = await client.query(loginQuery, [user_id, 'active']);
 
             if (staus.rowCount === 0) {
