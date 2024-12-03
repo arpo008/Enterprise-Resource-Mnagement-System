@@ -60,6 +60,11 @@ const submitReportQ: string = `
   RETURNING *;
 `;
 
+const getReportfrAdmninQ: string = `
+  SELECT * FROM performance_reports
+  WHERE employee_id = $1;
+`;
+
 export {  
   getUserById,
   getAllUsers,
@@ -71,5 +76,6 @@ export {
   logoutQuery,
   loginQuery,
   getAttendance,
-  submitReportQ 
+  submitReportQ,
+  getReportfrAdmninQ
 };

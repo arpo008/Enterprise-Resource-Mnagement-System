@@ -26,6 +26,8 @@ import { AddIncrementController } from '../controllers/AddIncrementController';
 import { LogoutController } from '../controllers/LogoutController';
 import { GetAttendenceController } from '../controllers/GetAttendenceController';
 import { PerformanceController } from '../controllers/PerformanceController';
+import { GetReportController } from '../controllers/GetReportController';
+import { GetAllUserController } from '../controllers/GetAllUserController';
 
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
 import { add } from 'date-fns';
@@ -41,6 +43,8 @@ const addIncrementController = new AddIncrementController();
 const logoutController = new LogoutController();
 const getAttendenceController = new GetAttendenceController();
 const performanceController = new PerformanceController();
+const getReportController = new GetReportController();
+const getAllUserController = new GetAllUserController();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -74,6 +78,14 @@ router.post('/getAttendence', (req, res) => {
 
 router.post('/submitPerformance', (req, res) => {
   performanceController.submitReport(req, res);
+});
+
+router.post('/getReport', (req, res) => {
+  getReportController.getReport(req, res);
+});
+
+router.post('/getAllUser', (req, res) => {
+  getAllUserController.getAllUser(req, res);
 });
 
 router.get('/', (req, res) => {

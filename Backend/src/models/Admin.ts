@@ -1,7 +1,7 @@
 
 import { User } from './user';
 import DatabaseSingleton from '../database/index';
-import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ} from '../queries/userQueries';
+import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ, getReportfrAdmninQ} from '../queries/userQueries';
 import { UserManagement, PerformanceManagement } from './interfaces';
 
 export class Admin extends User implements UserManagement, PerformanceManagement{
@@ -117,6 +117,33 @@ export class Admin extends User implements UserManagement, PerformanceManagement
             return { 'message' : 'Report Submitted'};
         } else {
             return {'message': 'Report not submitted'};
+        }
+    }
+
+    async viewReport(id: number): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(getReportfrAdmninQ, [id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Report Found', 'Reports': result.rows};
+        } else {
+            return {'message': 'No Report Found'};
+        }
+    }
+
+    async getAllUsers(): Promise<Object> {
+            
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query('SELECT * FROM users');
+
+        if (result.rows.length > 0) {
+            result.rows.forEach(user => {
+                delete user.password;
+            });
+            return { 'message' : 'Users Found', 'Users': result.rows};
+        } else {
+            return {'message': 'No Users Found'};
         }
     }
 }

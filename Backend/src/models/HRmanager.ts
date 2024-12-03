@@ -140,4 +140,21 @@ export class HRmanager extends User implements UserManagement, PerformanceManage
             return {'message': 'Report not submitted'};
         }
     }
+
+    async getAllUsers(): Promise<Object> {
+            
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query('SELECT * FROM users');
+
+        result.rows = result.rows.filter(user => user.role !== 'Admin');
+        
+        if (result.rows.length > 0) {
+            result.rows.forEach(user => {
+                delete user.password;
+            });
+            return { 'message' : 'Users Found', 'Users': result.rows};
+        } else {
+            return {'message': 'No Users Found'};
+        }
+    }
 }

@@ -4,6 +4,7 @@ import { User } from './user';
 export interface UserManagement {
     addNewUser(user: User): Promise<Object>; 
     removeUser(number : Number): Promise<Object>;
+    getAllUsers(): Promise<Object>;
 }
 
 export interface PerformanceManagement {
