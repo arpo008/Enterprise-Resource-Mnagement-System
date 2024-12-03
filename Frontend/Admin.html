@@ -56,13 +56,13 @@
                     <a href="Admin.html" class="relative block text-xl font-bold  -left-2 -top-2 bg-green-200 border border-green-500 rounded-lg px-3 py-1 text-green-800">ADMIN</a>
                     </a>
                 </li>
-                <li><a href=""class="text-2xl font-bold">HR-Manager</a></li>
+                <li><a href="HR_manager.html"class="text-2xl font-bold">HR-Manager</a></li>
                 
                 <li><a href="product Manager.html"class="text-2xl font-bold">Product Manager</a></li>
               <li><a href="shop Manager.html"class="text-2xl font-bold">Shop Manager</a></li>
-                <li><a href=""class="text-2xl font-bold">Employee</a></li>
-                <li><a href=""class="text-2xl font-bold">System Maintenance And Support</a></li>
-                <li><a href="dashboard.html"class="text-2xl font-bold">LogOut</a></li>
+                <li><a href="employee.html"class="text-2xl font-bold">Employee</a></li>
+                <li><a href="System_Maintainance.html"class="text-2xl font-bold">System Maintenance And Support</a></li>
+                <li><a href="#" class="text-2xl font-bold" onclick="logout()">LogOut</a></li>
     
          </ul>
     
@@ -86,7 +86,7 @@
                         <div class="card-body">
                             <h2 class="card-title">Delete Product</h2>
                             <div class="card-actions justify-end">
-                                <button class="btn btn-error">Delete</button>
+                                <button class="btn btn-error" onclick="window.location.href='delete_user.html'">Delete</button>
                             </div>
                         </div>
                     </div>
@@ -118,11 +118,11 @@
                         </div>
                     </div>
                     <div class="card card-compact bg-white shadow-lg rounded-lg">
-                        <figure><img src="../Resources/feedback.png" alt="Feedback"></figure>
+                        <figure><img class="h-[250px]" src="../Resources/increment.png" alt="Feedback"></figure>
                         <div class="card-body">
-                            <h2 class="card-title">Send Feedback</h2>
+                            <h2 class="card-title">Increment Salary</h2>
                             <div class="card-actions justify-end">
-                                <button class="btn btn-secondary">Send</button>
+                                <button class="btn btn-secondary" onclick="window.location.href='increment_salary.html'">Increment</button>
                             </div>
                         </div>
                     </div>
@@ -134,10 +134,20 @@
                                 <button class="btn btn-primary" onclick="">View</button>
                             </div>
                         </div>
-                    </div>                    
+                    </div>  
+                    <div class="card card-compact bg-white shadow-lg rounded-lg">
+                        <figure><img src="../Resources/attendance.jpg" alt="Employee List"></figure>
+                        <div class="card-body">
+                            <h2 class="card-title">Check Attendance</h2>
+                            <div class="card-actions justify-end">
+                                <button class="btn btn-primary" onclick="window.location.href='attendance_search.html'">View</button>
+                            </div>
+                        </div>
+                    </div>                  
                 </div>
             </div>
         </div>
     </section>
+    <script src="logout.js"></script>
 </body>
 </html>
