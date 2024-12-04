@@ -28,6 +28,9 @@ import { GetAttendenceController } from '../controllers/GetAttendenceController'
 import { PerformanceController } from '../controllers/PerformanceController';
 import { GetReportController } from '../controllers/GetReportController';
 import { GetAllUserController } from '../controllers/GetAllUserController';
+import { AddProductController } from '../controllers/AddProductController';
+import { DeleteProductController } from '../controllers/DeleteProductController';
+import { ProductController } from '../controllers/ProductController';
 
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
 import { add } from 'date-fns';
@@ -45,6 +48,9 @@ const getAttendenceController = new GetAttendenceController();
 const performanceController = new PerformanceController();
 const getReportController = new GetReportController();
 const getAllUserController = new GetAllUserController();
+const addProductController = new AddProductController();
+const deleteProductController = new DeleteProductController();
+const productController = new ProductController();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -86,6 +92,22 @@ router.post('/getReport', (req, res) => {
 
 router.post('/getAllUser', (req, res) => {
   getAllUserController.getAllUser(req, res);
+});
+
+router.post('/addProduct', (req, res) => {
+  addProductController.addProduct(req, res);
+});
+
+router.post('/deleteProduct', (req, res) => {
+  deleteProductController.deleteProduct(req, res);
+});
+
+router.post('/updateProductQuantity', (req, res) => {
+  productController.updateQuantity(req, res);
+});
+
+router.post('/getAllProduct', (req, res) => {
+  productController.getAllProduct(req, res);
 });
 
 router.get('/', (req, res) => {

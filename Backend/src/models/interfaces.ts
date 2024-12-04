@@ -20,6 +20,20 @@ export interface Employee extends User {
     completeTask(number: Number): void;
 }
 
+export interface Product {
+    updateStock(newQuantity: number): void;
+    buyProduct(quantity: number): void;
+    getPrice(): number;
+    getType(): string;
+}
+
+export interface ProductManagement {
+    addProduct(name: String, price: number, category: string, quantity: number, image: Buffer): Promise<Object>;
+    removeProduct(id: number): Promise<Object>;
+    updateQuantity(id: number, quantity: number): Promise<Object>;
+    getAllProducts(): Promise<Object>;
+}
+
 export interface Observable {
     loadObserversFromDatabase(): Promise<Object>;
     addObserver(observer: Employee): Promise<Object>;
