@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@1.14.0/dist/full.css" rel="stylesheet">
+    <script src="show_user.js" defer></script>
+</head>
+<body class="bg-gradient-to-br from-blue-500 to-pink-300 min-h-screen flex flex-col items-center justify-center">
+    <div class="bg-white p-10 rounded-lg shadow-lg w-full max-w-4xl">
+        <h1 class="text-4xl font-extrabold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">User Details</h1>
+        <div id="errorMessage" class="text-red-500 hidden"></div>
+        <div id="userDetails" class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100 text-gray-700">
+                        <th class="py-3 px-5 border-b">Field</th>
+                        <th class="py-3 px-5 border-b">Details</th>
+                    </tr>
+                </thead>
+                <tbody id="userDetailsBody">
+                    <!-- User details will be populated here -->
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-8 text-center">
+            <button class="btn btn-primary bg-gradient-to-r from-blue-500 to-purple-500 hover:from-purple-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded" onclick="goBack()">Go Back to Search</button>
+        </div>
+    </div>
+</body>
+</html>
