@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Records</title>
+    <title>Search Attendance</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-r from-gray-300 to-yellow-300 min-h-screen">
+<body class=" bg-gradient-to-r from-gray-300 to-yellow-300">
 
     <div class="navbar bg-base-100 h-24 bg-slate-200 m-3 rounded-lg shadow-lg">
         <div class="navbar-start">
@@ -44,31 +44,28 @@
         </div>
     </div>
 
-    <!-- Table for Attendance Data -->
-    <div class="container mx-auto mt-10 p-6">
-        <h2 class="text-3xl font-semibold text-center mb-6">Attendance Records</h2>
-        <div class="overflow-x-auto">
-            <table class="table table-zebra w-full">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Date</th>
-                        <th>Clock-in Time</th>
-                        <th>Clock-out Time</th>
-                        <th>Total Hours</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="attendanceTableBody">
-                    <!-- Attendance rows will be populated here by the script -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="flex justify-center">
-        <button class="btn text-black font-bold text-center flex justi" onclick="window.location.href='Admin.html'">Back</button>
-    </div>
 
-    <script src="attendance_display.js"></script>
+<div class="flex  justify-center h-screen m-0 p-40">
+    <!-- Search Attendance Form -->
+    <div class="card  bg-base-100 w-[550px] h-[250px] shadow-xl p-6">
+        <h2 class="text-2xl font-bold text-center mb-4">Search Report</h2>
+        <form id="attendanceSearchForm" class="form-control space-y-4">
+            <!-- User ID Input -->
+            <div>
+                <label class="label">
+                    <span class="label-text">User ID</span>
+                </label>
+                <input type="number" id="userId" class="input input-bordered w-full" placeholder="Enter User ID" required />
+            </div>
+
+            
+            
+
+            <button type="button" onclick="searchReport()" class="btn btn-primary w-full mt-4">Search Report</button>
+        </form>
+    </div>
+</div>
+
+    <script src="report_search.js"></script>
 </body>
 </html>

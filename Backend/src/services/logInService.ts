@@ -1,4 +1,3 @@
-
 import DatabaseSingleton from '../database/index';
 import bcrypt from 'bcrypt';
 import { loginQuery } from '../queries/userQueries';
