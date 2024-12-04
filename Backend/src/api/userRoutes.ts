@@ -110,6 +110,14 @@ router.post('/getAllProduct', (req, res) => {
   productController.getAllProduct(req, res);
 });
 
+router.post('/updateProduct', (req, res) => {
+  productController.updateProduct(req, res);
+});
+
+router.post('/buyProduct', (req, res) => {
+  productController.buyProduct(req, res);
+});
+
 router.get('/', (req, res) => {
     res.send('-----------------hi-----------------');
   });

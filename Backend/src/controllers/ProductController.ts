@@ -1,6 +1,6 @@
 // DeleteUserController.ts
 import { Request, Response } from 'express';
-import { productService } from '../services/ProductServices';
+import { productService } from '../services/productServices';
 import { add } from 'date-fns';
 
 const service = new productService();
@@ -22,6 +22,28 @@ export class ProductController {
         try {
 
             await service.getAllProduct(req, res);
+        } catch (error: any) {
+            console.error('Error in add_Increment_Controller:', error.message);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async updateProduct (req: Request, res: Response): Promise<void> {
+
+        try {
+
+            await service.updateProduct(req, res);
+        } catch (error: any) {
+            console.error('Error in add_Increment_Controller:', error.message);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async buyProduct (req: Request, res: Response): Promise<void> {
+            
+        try {
+
+            await service.buyProduct(req, res);
         } catch (error: any) {
             console.error('Error in add_Increment_Controller:', error.message);
             res.status(500).json({ message: error.message });

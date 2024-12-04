@@ -66,8 +66,8 @@ const getReportfrAdmninQ: string = `
 `;
 
 const insertProductQ: string = `
-  INSERT INTO products(name, price, category, stock_quantity, image) 
-  VALUES ($1, $2, $3, $4, $5) 
+  INSERT INTO products(name, price, category, stock_quantity, image, created_at, updated_at) 
+  VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
   RETURNING *;
 `;
 
@@ -77,9 +77,27 @@ const deleteProductQ: string = `
 
 const updateQuantityQ: string = `
   UPDATE products
-  SET stock_quantity = $1
+  SET stock_quantity = $1, updated_at = CURRENT_TIMESTAMP
   WHERE product_id = $2
   RETURNING *;
+`;
+
+const updateProductQ: string = `
+  UPDATE products
+  SET name = $1, price = $2, category = $3, stock_quantity = $4, image = $5, updated_at = CURRENT_TIMESTAMP
+  WHERE product_id = $6
+  RETURNING *;
+`;
+
+const getSalesRecordQ: string = `
+  INSERT INTO sales_records (sold_by, sale_date, total_amount)
+  VALUES ($1, CURRENT_TIMESTAMP, $2)
+  RETURNING record_id;
+`;
+
+const addSoldProductsQ: string = `
+  INSERT INTO sales_products (record_id, product_id, quantity_sold)
+  VALUES ($1, $2, $3);
 `;
 
 export {  
@@ -97,5 +115,8 @@ export {
   getReportfrAdmninQ,
   insertProductQ,
   deleteProductQ,
-  updateQuantityQ
+  updateQuantityQ,
+  updateProductQ,
+  getSalesRecordQ,
+  addSoldProductsQ
 };
