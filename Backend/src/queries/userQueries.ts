@@ -65,6 +65,23 @@ const getReportfrAdmninQ: string = `
   WHERE employee_id = $1;
 `;
 
+const insertProductQ: string = `
+  INSERT INTO products(name, price, category, stock_quantity, image) 
+  VALUES ($1, $2, $3, $4, $5) 
+  RETURNING *;
+`;
+
+const deleteProductQ: string = `
+  DELETE FROM products WHERE product_id = $1 RETURNING *;
+`;
+
+const updateQuantityQ: string = `
+  UPDATE products
+  SET stock_quantity = $1
+  WHERE product_id = $2
+  RETURNING *;
+`;
+
 export {  
   getUserById,
   getAllUsers,
@@ -77,5 +94,8 @@ export {
   loginQuery,
   getAttendance,
   submitReportQ,
-  getReportfrAdmninQ
+  getReportfrAdmninQ,
+  insertProductQ,
+  deleteProductQ,
+  updateQuantityQ
 };

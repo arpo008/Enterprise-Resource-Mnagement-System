@@ -1,6 +1,7 @@
 
 import { User } from './user';
 import { Employee } from './interfaces';
+import DatabaseSingleton from '../database/index';
 
 export class Seller extends User implements Employee {
     constructor(user: User) {
@@ -19,6 +20,18 @@ export class Seller extends User implements Employee {
             user.image,
             'Seller'  // Set the role as Seller for the Seller class
         );
+    }
+
+    async getAllProducts(): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query('SELECT * FROM products');
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Products Found', 'Products': result.rows};
+        } else {
+            return {'message': 'No Products Found'};
+        }
     }
 
     completeTask(number: number): void {
