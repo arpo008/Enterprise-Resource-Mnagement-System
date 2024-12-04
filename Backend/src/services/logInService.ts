@@ -1,4 +1,3 @@
-
 import DatabaseSingleton from '../database/index';
 import bcrypt from 'bcrypt';
 import { loginQuery } from '../queries/userQueries';
@@ -21,14 +20,14 @@ export const logInService = async (user_id: number, providedPassword: string) =>
         } else {
             let userData = result.rows[0];
             delete userData.password;
+            delete userData.image;
 
             const database = DatabaseSingleton.getInstance();
             const client = database.getClient();   
             
-            const clockInTime = new Date().toISOString();
             let staus = await client.query(loginQuery, [user_id, 'active']);
 
-            if (staus.rowCount === 0) {
+            if (staus.rows.length === 0) {
                 return { error: 'An error occurred during login' };
             }
 

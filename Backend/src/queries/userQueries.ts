@@ -44,13 +44,25 @@ const logoutQuery: string = `
 
 const loginQuery: string = `
   INSERT INTO attendance (user_id, clock_in_time, status)
-  VALUES ($1, CURRENT_TIMESTAMP, $2);
+  VALUES ($1, CURRENT_TIMESTAMP, $2) 
+  RETURNING *;
 `;
 
 const getAttendance: string = `
   SELECT * FROM attendance
   WHERE user_id = $1
     AND date BETWEEN $2 AND $3;
+`;
+
+const submitReportQ: string = `
+  INSERT INTO performance_reports(employee_id, reported_by, review_date, score, notes)
+  VALUES ($1, $2, CURRENT_DATE, $3, $4)
+  RETURNING *;
+`;
+
+const getReportfrAdmninQ: string = `
+  SELECT * FROM performance_reports
+  WHERE employee_id = $1;
 `;
 
 export {  
@@ -63,5 +75,7 @@ export {
   updateUserSalary,
   logoutQuery,
   loginQuery,
-  getAttendance, 
+  getAttendance,
+  submitReportQ,
+  getReportfrAdmninQ
 };

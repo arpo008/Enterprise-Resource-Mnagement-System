@@ -1,9 +1,11 @@
 
 import { User } from './user';
-import { TaskManagement, Observable, Employee } from './interfaces';
+import { TaskManagement, Observable, Employee, PerformanceManagement } from './interfaces';
+import DatabaseSingleton from '../database/index';
+import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ} from '../queries/userQueries';
 
 
-export class ShopManager extends User implements TaskManagement, Observable {
+export class ShopManager extends User implements TaskManagement, Observable, PerformanceManagement {
     private observers: Employee[] = [];
 
     constructor(user: User) {
@@ -54,6 +56,26 @@ export class ShopManager extends User implements TaskManagement, Observable {
         //     return { 'message': 'Observers loaded' };
         // }
         return {'message': 'Observers loaded'};
+    }
+
+    async submitReport(id: number, score : number, comment : string): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        let result = await db.query(findUserQ, [id]);
+
+        if (result.rows.length === 0) {
+            return { 'message' : 'User not found'};
+        } else if ( result.rows[0].role === 'Admin' || result.rows[0].role === 'HR Manager' || result.rows[0].role === 'Shop Manager' || result.rows[0].role === 'Product Manager') {
+            return { 'message' : 'You cannot submit report for this user'};
+        }
+
+        result = await db.query(submitReportQ, [id, this.user_id, score, comment]);
+        
+        if (result.rows.length > 0) {
+            return { 'message' : 'Report Submitted'};
+        } else {
+            return {'message': 'Report not submitted'};
+        }
     }
 
     // Add an observer to the list
