@@ -33,12 +33,14 @@ export interface Products {
   }
   
 
+//   for admin and product manager
 export interface ProductManagement {
     addProduct(name: String, price: number, category: string, quantity: number, image: Buffer): Promise<Object>;
     removeProduct(id: number): Promise<Object>;
     updateQuantity(id: number, quantity: number): Promise<Object>;
     getAllProducts(): Promise<Object>;
     updateProduct(id: number, name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object>
+    getDailySalesBetweenDates (startDate: string, endDate: string): Promise<Object>
 }
 
 export interface Observable {
