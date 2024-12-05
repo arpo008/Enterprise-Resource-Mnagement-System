@@ -128,6 +128,14 @@ router.post('/myData', (req, res) => {
   controller.myData(req, res);
 });
 
+router.post('/getAllSales', (req, res) => { 
+  productController.getAllSales(req, res);
+}); 
+
+router.post('/getProductSale', (req, res) => { 
+  productController.getProductSales(req, res);
+});
+
 router.get('/', (req, res) => {
     res.send('-----------------hi-----------------');
   });

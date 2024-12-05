@@ -9,7 +9,9 @@ const hideSpinner = () => {
 };
 
 let allProducts = []; // Store all products globally for filtering
+let cart = {}; // Cart to store the added products
 
+// Fetch products from backend
 const fetchProducts = async () => {
     showSpinner();
 
@@ -32,6 +34,7 @@ const fetchProducts = async () => {
         if (res.ok) {
             const data = await res.json();
             allProducts = data.Products; // Save all products globally
+            console.log("Fetched Products: ", allProducts);
             displayProducts(allProducts);
         } else {
             const errorData = await res.json();
@@ -39,7 +42,7 @@ const fetchProducts = async () => {
         }
     } catch (error) {
         console.error("Error fetching products:", error);
-        alert("An error occurred while fetching products. Please try again.");
+        alert("An error occurred while fetching products: " + error.message); // Display the error message
     } finally {
         hideSpinner();
     }
@@ -78,7 +81,13 @@ const displayProducts = (products) => {
                 <p class="text-gray-600">Price: $${product.price}</p>
                 <p class="text-gray-600">Stock Quantity: ${product.stock_quantity}</p>
                 <div class="flex justify-between mt-4">
-                    <button class="btn btn-primary" onclick="showProductDetails('${product.product_id}')">Details</button>
+                    <!-- Buttons and quantity input -->
+                    <button class="btn btn-secondary" onclick="decrementQuantity(${product.product_id})">-</button>
+                    <input type="number" id="quantity-${product.product_id}" class="input input-bordered w-20 text-center" value="1" min="1" max="${product.stock_quantity}">
+                    <button class="btn btn-primary" onclick="incrementQuantity(${product.product_id}, ${product.stock_quantity})">+</button>
+                </div>
+                <div class="flex justify-center mt-4">
+                    <button class="btn btn-primary" onclick="manualAddToCart(${product.product_id}, '${product.name}', ${product.price}, ${product.stock_quantity})">Add to Cart</button>
                 </div>
             </div>
         `;
@@ -87,20 +96,141 @@ const displayProducts = (products) => {
     });
 };
 
-const filterProductsByCategory = (category) => {
-    if (category === "All") {
-        displayProducts(allProducts); // Show all products
-    } else {
-        const filteredProducts = allProducts.filter(
-            (product) => product.category === category
-        );
-        displayProducts(filteredProducts); // Show filtered products
+// Increment the quantity in the number input box
+const incrementQuantity = (productId, stockQuantity) => {
+    const quantityInput = document.getElementById(`quantity-${productId}`);
+    let quantity = parseInt(quantityInput.value);
+
+    // Prevent quantity from exceeding stock quantity
+    if (quantity < stockQuantity) {
+        quantityInput.value = quantity + 1;
     }
 };
 
-const showProductDetails = (productId) => {
-    alert(`Show details for product ID: ${productId}`);
+// Decrement the quantity in the number input box
+const decrementQuantity = (productId) => {
+    const quantityInput = document.getElementById(`quantity-${productId}`);
+    let quantity = parseInt(quantityInput.value);
+
+    // Prevent quantity from going below 1
+    if (quantity > 1) {
+        quantityInput.value = quantity - 1;
+    }
 };
 
-// Load products on page load
+// Add product to cart using the quantity in the input box
+const manualAddToCart = (productId, productName, price, stockQuantity) => {
+    const quantityInput = document.getElementById(`quantity-${productId}`);
+    let quantity = parseInt(quantityInput.value);
+
+    // Check if quantity exceeds stock available
+    if (quantity > stockQuantity) {
+        alert("Cannot add more than available stock.");
+        return;
+    }
+
+    if (!cart[productId]) {
+        cart[productId] = {
+            name: productName,
+            price: price,
+            quantity: quantity,
+            product_id: productId,
+        };
+    } else {
+        cart[productId].quantity += quantity;
+    }
+
+    console.log("Updated Cart: ", cart);
+    updateCartUI();
+};
+
+// Update cart UI
+const updateCartUI = () => {
+    const cartItems = document.getElementById("cart-items");
+    const totalPriceDiv = document.getElementById("total-price");
+
+    cartItems.innerHTML = "";
+    let totalPrice = 0;
+
+    if (Object.keys(cart).length === 0) {
+        cartItems.innerHTML = `<p>Your cart is empty</p>`;
+        totalPriceDiv.innerHTML = `<p>Total: $0.00</p>`;
+        return;
+    }
+
+    Object.values(cart).forEach(item => {
+        const itemDiv = document.createElement("div");
+        const itemTotal = item.quantity * item.price;
+        totalPrice += itemTotal;
+
+        itemDiv.innerHTML = `
+            <p>${item.name} - ${item.quantity} x $${item.price} = $${itemTotal}</p>
+        `;
+        cartItems.appendChild(itemDiv);
+    });
+
+    totalPriceDiv.innerHTML = `<p>Total: $${totalPrice.toFixed(2)}</p>`;
+};
+
+// Handle purchase
+const purchase = async () => {
+    const authToken = localStorage.getItem("auth_token");
+
+    if (!authToken) {
+        alert("You are not logged in. Please login to purchase.");
+        window.location.href = "login.html"; // Redirect to login page
+        return;
+    }
+
+    const purchaseProducts = Object.values(cart).map(item => ({
+        id: item.product_id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+    }));
+
+    console.log("Sending purchase request for: ", purchaseProducts);
+
+    try {
+        const res = await fetch("http://localhost:3000/api/buyProduct", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({ products: purchaseProducts }),
+        });
+
+        if (res.ok) {
+            const data = await res.json();
+            console.log("Purchase response: ", data);
+            alert("Purchase successful!");
+
+            // Store purchase details and seller info in localStorage
+            const purchaseDetails = {
+                products: purchaseProducts,
+                totalPrice: data.totalPrice, // Assuming the response contains total price
+                sellerInfo: data.sellerInfo, // Assuming the response contains seller info
+                date: new Date().toLocaleString(), // Current date and time
+            };
+
+            localStorage.setItem("purchaseDetails", JSON.stringify(purchaseDetails)); // Store in localStorage
+
+            // Clear cart after successful purchase
+            cart = {};
+            updateCartUI(); // Update cart UI
+
+            // Redirect to memo.html to display purchase memo
+            window.location.href = "memo.html";
+        } else {
+            const errorData = await res.json();
+            alert(`Purchase failed: ${errorData.message || "Unknown error."}`);
+        }
+    } catch (error) {
+        alert("Error during purchase.");
+        console.error("Purchase Error:", error);
+    }
+};
+
+// Initial fetch of products
 fetchProducts();

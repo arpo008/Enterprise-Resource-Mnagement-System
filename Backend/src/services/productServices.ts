@@ -28,8 +28,19 @@ const ProductSchema = z.object({
     "image": z.union([z.instanceof(Buffer), z.null()]), 
 });
 
+const getProductSalesSchema = z.object({
+    "start_date": z.string(),
+    "end_date": z.string(),
+    "id": z.number(),
+});
+
 const singleProductSchema = z.object({
     "product_id": z.number(),
+});
+
+const getAllSalesSchema = z.object({
+    "start_date": z.string(),
+    "end_date": z.string(),
 });
 
 const ProductListSchema = z.object({
@@ -334,6 +345,113 @@ export class productService {
             }
         }
     
-    }       
+    }   
+    
+    async getAllSales (req: Request, res: Response): Promise<void> {
+
+        try {
+
+            const token = req.headers.authorization?.split(' ')[1];
+
+            if ( !token ) {
+                res.status(401).json({ message: 'Login First' });
+                return;
+            }
+
+            const tokenVerified = verifyToken(token);
+
+            if ( tokenVerified == null ) {
+                res.status(401).json({ message: 'Invalid Token' });
+                return;
+            }
+
+            const parsedBody = getAllSalesSchema.parse(req.body);
+            let { start_date, end_date} = parsedBody;
+
+            const userBuilder = new UserBuilder()
+                    .setId(tokenVerified.user_id)
+                    .setRole(tokenVerified.role);
+            
+            let admin;
+            if ( tokenVerified.role === 'Admin' ) {
+                admin = new Admin (userBuilder.build());
+            } else if ( tokenVerified.role === 'Product Manager' ) {
+                admin = new ProductManager(userBuilder.build());
+            } else {
+                res.status(401).json({ message: 'You are Unauthorized for this' });
+                return;
+            }
+
+            admin?.getDailySalesBetweenDates(start_date, end_date).then((result) => {
+                res.status(200).json(result);
+            }
+            ).catch((error : any) => {
+                res.status(500).json({ message: error.message });
+            });
+
+
+        } catch (error: any) {
+            console.error('Error executing query:', error.message);
+            if (error instanceof z.ZodError) {
+                res.status(400).json({ message: "Invalid data type"});
+            } else {
+                res.status(500).json({ message: error.message });
+            }
+        }
+
+    }
+
+    // Add the method for fetching sales of a single product
+async getProductSales(req: Request, res: Response): Promise<void> {
+    try {
+        const token = req.headers.authorization?.split(' ')[1];
+
+        if (!token) {
+            res.status(401).json({ message: 'Login First' });
+            return;
+        }
+
+        const tokenVerified = verifyToken(token);
+
+        if (tokenVerified == null) {
+            res.status(401).json({ message: 'Invalid Token' });
+            return;
+        }
+
+        const parsedBody = getProductSalesSchema.parse(req.body); // Assuming you have a schema for validation
+        const { start_date, end_date, id } = parsedBody;
+
+        const userBuilder = new UserBuilder()
+            .setId(tokenVerified.user_id)
+            .setRole(tokenVerified.role);
+
+        let admin;
+        if (tokenVerified.role === 'Admin') {
+            admin = new Admin(userBuilder.build());
+        } else if (tokenVerified.role === 'Product Manager') {
+            admin = new ProductManager(userBuilder.build());
+        } else {
+            res.status(401).json({ message: 'You are Unauthorized for this' });
+            return;
+        }
+
+        // Get product sales using the newly created method
+        admin?.getProductSalesBetweenDates(start_date, end_date, id).then((result) => {
+            res.status(200).json(result);
+        }).catch((error: any) => {
+            res.status(500).json({ message: error.message });
+        });
+
+    } catch (error: any) {
+        console.error('Error executing query:', error.message);
+        if (error instanceof z.ZodError) {
+            res.status(400).json({ message: "Invalid data type" });
+        } else {
+            res.status(500).json({ message: error.message });
+        }
+    }
+}
+
+    
 }
 

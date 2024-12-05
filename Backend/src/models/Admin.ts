@@ -1,7 +1,7 @@
 
 import { User } from './user';
 import DatabaseSingleton from '../database/index';
-import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ, getReportfrAdmninQ, insertProductQ, deleteProductQ, updateQuantityQ, updateProductQ, getProductQ } from '../queries/userQueries';
+import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ, getReportfrAdmninQ, insertProductQ, deleteProductQ, updateQuantityQ, updateProductQ, getProductQ, getDailySalesBetweenDates, getDailyProductSalesBetweenDates } from '../queries/userQueries';
 import { UserManagement, PerformanceManagement, ProductManagement, Product } from './interfaces';
 import { ProductFactory } from './extendedProduct';
 import { Response, Request } from 'express';
@@ -280,4 +280,82 @@ export class Admin extends User implements UserManagement, PerformanceManagement
             return {'message': 'No Product Found'};
         }
     }
+
+    async getDailySalesBetweenDates (startDate: string, endDate: string): Promise<Object> {
+
+        try {
+
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+
+            // Subtract one day from the start date and add one day to the end date
+            start.setDate(start.getDate() - 1);
+            end.setDate(end.getDate() + 1);
+
+            // Convert the modified dates back to 'YYYY-MM-DD' format
+            const modifiedStartDate = start.toISOString().split('T')[0];
+            const modifiedEndDate = end.toISOString().split('T')[0];
+        
+            // Execute the query with the provided start and end date
+            const db = DatabaseSingleton.getInstance().getClient();
+            const result = await db.query(getDailySalesBetweenDates, [modifiedStartDate, modifiedEndDate]);
+    
+            // Format the result into the desired structure
+            const salesData = result.rows.map(row => ({
+                date: row.sale_date.toISOString().split('T')[0], // Full date in YYYY-MM-DD format
+                sales: parseFloat(row.total_sales), // Sales amount
+            }));
+    
+            // Return the response with the sales data
+            return {
+                'message': 'success',
+                'sales': salesData,
+            };
+        } catch (error) {
+            console.error('Error fetching daily sales:', error);
+            return {
+                'message': 'error',
+                'sales': [],
+            };
+        }
+    }
+
+    async getProductSalesBetweenDates(startDate: string, endDate: string, productId: number): Promise<Object> {
+        try {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+    
+            // Subtract one day from the start date and add one day to the end date
+            start.setDate(start.getDate() - 1);
+            end.setDate(end.getDate() + 1);
+    
+            // Convert the modified dates back to 'YYYY-MM-DD' format
+            const modifiedStartDate = start.toISOString().split('T')[0];
+            const modifiedEndDate = end.toISOString().split('T')[0];
+    
+            const db = DatabaseSingleton.getInstance().getClient();
+            const result = await db.query(getDailyProductSalesBetweenDates, [modifiedStartDate, modifiedEndDate, productId]);
+    
+            // Format the result into the desired structure
+            const salesData = result.rows.map(row => ({
+                date: row.sale_date.toISOString().split('T')[0], // Full date in YYYY-MM-DD format
+                product_name: row.product_name, // Product name
+                quantity_sold: parseInt(row.quantity_sold), // Quantity sold
+                sales: parseFloat(row.total_sales), // Sales amount
+            }));
+    
+            // Return the response with the sales data
+            return {
+                message: 'success',
+                sales: salesData,
+            };
+        } catch (error) {
+            console.error('Error fetching product sales:', error);
+            return {
+                message: 'error',
+                sales: [],
+            };
+        }
+    }
+    
 }

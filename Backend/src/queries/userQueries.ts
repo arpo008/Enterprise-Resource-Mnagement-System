@@ -110,6 +110,34 @@ const getProductQ: string = `
   SELECT * FROM products WHERE product_id = $1;
 `;
 
+const getDailySalesBetweenDates: string = `
+  SELECT s.sale_date, COALESCE(SUM(sp.quantity_sold * p.price), 0) AS total_sales
+    FROM sales_records s
+    JOIN sales_products sp ON s.record_id = sp.record_id
+    JOIN products p ON sp.product_id = p.product_id
+    WHERE s.sale_date BETWEEN $1 AND $2
+    GROUP BY s.sale_date
+    ORDER BY s.sale_date;
+`;
+
+const getDailyProductSalesBetweenDates: string = `
+  WITH date_range AS (
+        SELECT generate_series($1::date, $2::date, '1 day'::interval)::date AS sale_date
+    )
+    SELECT 
+        dr.sale_date, 
+        p.name AS product_name, 
+        COALESCE(SUM(sp.quantity_sold), 0) AS quantity_sold,
+        COALESCE(SUM(sp.quantity_sold * p.price), 0) AS total_sales
+    FROM date_range dr
+    LEFT JOIN sales_records s ON s.sale_date = dr.sale_date
+    LEFT JOIN sales_products sp ON s.record_id = sp.record_id
+    LEFT JOIN products p ON sp.product_id = p.product_id
+    WHERE sp.product_id = $3  -- Filter by the specific product
+    GROUP BY dr.sale_date, p.product_id
+    ORDER BY dr.sale_date;
+`;
+
 export {  
   getUserById,
   getAllUsers,
@@ -129,5 +157,7 @@ export {
   updateProductQ,
   getSalesRecordQ,
   addSoldProductsQ,
-  getProductQ
+  getProductQ,
+  getDailySalesBetweenDates,
+  getDailyProductSalesBetweenDates
 };

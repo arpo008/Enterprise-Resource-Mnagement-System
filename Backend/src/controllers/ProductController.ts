@@ -60,4 +60,26 @@ export class ProductController {
             res.status(500).json({ message: error.message });
         }
     }
+
+    async getAllSales (req: Request, res: Response): Promise<void> {
+                
+        try {
+
+            await service.getAllSales(req, res);
+        } catch (error: any) {
+            console.error('Error in get all sales:', error.message);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getProductSales(req: Request, res: Response): Promise<void> {
+        try {
+            // Call the service layer method to get product sales
+            await service.getProductSales(req, res);
+        } catch (error: any) {
+            console.error('Error in get product sales:', error.message);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
 }
