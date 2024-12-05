@@ -2,7 +2,7 @@
 import { User } from './user';
 import { Employee, Products } from './interfaces';
 import DatabaseSingleton from '../database/index';
-import { getSalesRecordQ, addSoldProductsQ } from '../queries/userQueries';
+import { getSalesRecordQ, addSoldProductsQ, getProductQ } from '../queries/userQueries';
 import { ProductFactory } from './extendedProduct';
 import { HalalMeat, Hardware, Software, HaramMeat, GroceryProduct, Other } from './extendedProduct';
 import { number } from 'zod';
@@ -133,6 +133,18 @@ export class Seller extends User implements Employee {
             "Bought Products": boughtProducts,
             "Failed": errorMessages
         };
+    }
+
+    async getProduct(id: number): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(getProductQ, [id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Product Found', 'Product': result.rows};
+        } else {
+            return {'message': 'No Product Found'};
+        }
     }
     
 }

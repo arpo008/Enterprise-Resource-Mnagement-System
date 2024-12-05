@@ -25,51 +25,46 @@ export class HRmanager extends User implements UserManagement, PerformanceManage
 
     async addNewUser(user: User): Promise<Object> {
         
-        // if (user.role !== 'Admin') {
-        //     return {'message': 'Only Admin can add new users'};
-        // }
+        if (user.role === 'Admin') {
+            return {'message': 'You cannot add an Admin'};
+        }
 
-        // const result = await db.query(
-        //     'INSERT INTO users(first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *', 
-        //     [user.first_name, user.last_name, user.address, user.gender, user.dob, user.telephone, user.age, user.salary, user.image, user.password, user.role]
-        //   ); 
-        // if (result.rows.length > 0) {
-        //     return result.rows[0];
-        // } else {
-        //     return {'message': 'User not added'};
-        // }
-        return {'message': 'User not added'};
+        const { first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role} = user;
+        const values = [first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role];
+            
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(insertNewUser, values);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'User Added', 'user_id': result.rows[0].user_id};
+        } else {
+            return {'message': 'User not added'};
+        }
     }
 
-    async removeUser(number: Number) : Promise<Object> {
+    async removeUser(number : Number) : Promise<Object> {
         
-        // let result;
-        // result = await db.query( 'SELECT * FROM users WHERE user_id = $1', [number] );
-        // if (result.rows.length === 0) {
-        //     return {'message': 'User not found'};
-        // }
+        const db = DatabaseSingleton.getInstance().getClient();
 
-        // if (result.rows[0].role === 'Admin') {
+        const data = await db.query(findUserQ, [number]);
 
-        //     return {'message': 'Cannot delete Admin'};
-        // } else if ( result.rows[0].role === 'HR Manager') {
+        if (data.rows.length === 0) {
+            return {'message': 'User not found'};
+        } else if ( data.rows[0].role === 'Admin') {
+            return {'message': 'You cannot Block Admin'};
+        } 
 
-        //     return {'message': 'Cannot delete HR Manager'};
-        // } else if ( result.rows[0].user_id === this.user_id) {
+        const result = await db.query(deleteUserQ, [number]);
 
-        //     return {'message': 'Cannot delete yourself'};
-        // }
-
-        // result = await db.query(
-        //     'DELETE FROM users WHERE user_id = $1 RETURNING *', 
-        //     [number]
-        //   ); 
-        // if (result.rows.length > 0) {
-        //     return result.rows[0];
-        // } else {
-        //     return {};
-        // }
-        return {'message': 'User not added'};
+        if (result.rows.length > 0) {
+            if ( result.rows[0].status === 'active') {
+                return { 'message' : result.rows[0].first_name + ' Activated', 'user_id': result.rows[0].user_id};
+            } else {
+                return { 'message' : result.rows[0].first_name + ' Deactivated', 'user_id': result.rows[0].user_id};
+            }
+        } else {
+            return {'message': 'User not founded'};
+        }
     }
 
     async addIncrement(number: number, increment: number) : Promise<Object> {

@@ -2,7 +2,7 @@
 import { User } from "./user";
 import { Product } from "./interfaces";
 import DatabaseSingleton from '../database/index';
-import { insertProductQ, updateProductQ } from '../queries/userQueries';
+import { insertProductQ, updateProductQ, getProductQ } from '../queries/userQueries';
 import { ProductFactory } from './extendedProduct';
 
 export class ProductManager extends User {
@@ -121,5 +121,17 @@ export class ProductManager extends User {
             throw new Error (error.message);
         }
         
+    }
+
+    async getProduct(id: number): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(getProductQ, [id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Product Found', 'Product': result.rows};
+        } else {
+            return {'message': 'No Product Found'};
+        }
     }
 }

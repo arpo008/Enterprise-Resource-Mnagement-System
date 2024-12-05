@@ -9,21 +9,13 @@ import bcrypt from 'bcrypt';
 import { z } from 'zod';
 import { HRmanager } from "../models/HRmanager";
 
-const deleteUserSchema = z.object({
-    "user_id": z.number().int(), // Ensure user_id is a number
-});
 
-export class deleteUserService {
+export class service {
 
-    async deleteUser (req: Request, res: Response): Promise<void> {
+    async myData (req: Request, res: Response): Promise<void> {
 
         try {
-
-            // authorize user by token  
-
-            const parsedBody = deleteUserSchema.parse(req.body);
-            const { user_id } = parsedBody;
-
+            
             const token = req.headers.authorization?.split(' ')[1];
              
             if ( !token ) {
@@ -37,25 +29,7 @@ export class deleteUserService {
                     return;
                 }
 
-                const adminBuilder = new UserBuilder()
-                    .setId(tokenVerified.user_id)
-                    .setRole(tokenVerified.role);
-                let admin;
-                if (tokenVerified.role === 'Admin') {
-                    admin = new Admin(adminBuilder.build());
-                } else if (tokenVerified.role === 'HR Manager') {
-                    admin = new HRmanager(adminBuilder.build());
-                } else {
-                    res.status(401).json({ message: 'You are Unauthorized for this.' });
-                    return;
-                }
-
-                admin.removeUser(user_id).then((result) => {
-                    res.status(200).json(result);
-
-                }).catch((error) => {
-                    res.status(500).json({ message: error.message });
-                });
+                res.status(200).json({ Data: tokenVerified });  
             }
 
         } catch (error: any) {

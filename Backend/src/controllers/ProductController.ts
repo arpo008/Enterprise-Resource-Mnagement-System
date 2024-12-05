@@ -12,7 +12,7 @@ export class ProductController {
 
             await service.updatQuantity(req, res);
         } catch (error: any) {
-            console.error('Error in add_Increment_Controller:', error.message);
+            console.error('Error in update_product_Controller:', error.message);
             res.status(500).json({ message: error.message });
         }
     }
@@ -23,7 +23,7 @@ export class ProductController {
 
             await service.getAllProduct(req, res);
         } catch (error: any) {
-            console.error('Error in add_Increment_Controller:', error.message);
+            console.error('Error in get_all_product_Controller:', error.message);
             res.status(500).json({ message: error.message });
         }
     }
@@ -34,7 +34,7 @@ export class ProductController {
 
             await service.updateProduct(req, res);
         } catch (error: any) {
-            console.error('Error in add_Increment_Controller:', error.message);
+            console.error('Error in update_product_Controller:', error.message);
             res.status(500).json({ message: error.message });
         }
     }
@@ -45,7 +45,18 @@ export class ProductController {
 
             await service.buyProduct(req, res);
         } catch (error: any) {
-            console.error('Error in add_Increment_Controller:', error.message);
+            console.error('Error in buy product controller:', error.message);
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getProduct (req: Request, res: Response): Promise<void> {
+            
+        try {
+
+            await service.getProduct(req, res);
+        } catch (error: any) {
+            console.error('Error in search a single product:', error.message);
             res.status(500).json({ message: error.message });
         }
     }

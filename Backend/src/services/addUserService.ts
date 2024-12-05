@@ -48,7 +48,16 @@ export class addUserService {
                     .setId(tokenVerified.user_id)
                     .setRole(tokenVerified.role);
 
-                const admin = new Admin (adminBuilder.build());
+                let admin;
+                if ( tokenVerified.role === 'Admin' ) {
+                    admin = new Admin(adminBuilder.build());
+                } else if ( tokenVerified.role === 'HR Manager' ) {
+                    admin = new HRmanager(adminBuilder.build());
+                } else {
+                    res.status(401).json({ message: 'Unauthorized' });
+                    return;
+                }
+                
                 let newUser;
 
                 if ( req.body.role === 'HR Manager' ) {

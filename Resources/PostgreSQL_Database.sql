@@ -10,8 +10,10 @@ CREATE TABLE users (
     salary DECIMAL(10, 2),
     image bytea,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(100)  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
+    role VARCHAR(100),  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
+    status VARCHAR(10) DEFAULT 'active'  -- New column for status (active/inactive)
 );
+
 
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
