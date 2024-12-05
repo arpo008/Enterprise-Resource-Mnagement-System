@@ -21,7 +21,13 @@ const findUserQ: string = `
 `;
 
 const deleteUserQ: string = `
-  DELETE FROM users WHERE user_id = $1 RETURNING *;
+  UPDATE users
+  SET status = CASE
+      WHEN status = 'active' THEN 'inactive'
+      ELSE 'active'
+  END
+  WHERE user_id = $1
+  RETURNING *;
 `;
 
 const updateUserSalary: string = `
@@ -100,6 +106,10 @@ const addSoldProductsQ: string = `
   VALUES ($1, $2, $3);
 `;
 
+const getProductQ: string = `
+  SELECT * FROM products WHERE product_id = $1;
+`;
+
 export {  
   getUserById,
   getAllUsers,
@@ -118,5 +128,6 @@ export {
   updateQuantityQ,
   updateProductQ,
   getSalesRecordQ,
-  addSoldProductsQ
+  addSoldProductsQ,
+  getProductQ
 };
