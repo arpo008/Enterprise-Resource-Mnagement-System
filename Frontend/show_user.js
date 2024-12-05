@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const errorMessage = document.getElementById("errorMessage");
 
     if (!userId) {
-        errorMessage.innerText = "User ID is missing.";
+        errorMessage.innerText = "User  ID is missing.";
         errorMessage.classList.remove("hidden");
         return;
     }
@@ -30,6 +30,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (response.ok) {
             const user = result.user;
+
+            // Assuming user.image is already a Base64 string
+            const imageBase64 = user.image; 
+
             userDetailsDiv.innerHTML = `
                 <tr>
                     <td class="py-3 px-5 border-b"><strong>User ID:</strong></td>
@@ -73,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 </tr>
                 <tr>
                     <td class="py-3 px-5 border-b"><strong>Image:</strong></td>
-                    <td class="py-3 px-5 border-b"><img src="data:image/jpeg;base64,${user.image.data}" alt="${user.first_name} ${user.last_name}" class="max-w-md rounded-lg shadow-md"></td>
+                    <td class="py-3 px-5 border-b"><img src="${imageBase64}" alt="${user.first_name} ${user.last_name}" class="max-w-md rounded-lg shadow-md"></td>
                 </tr>
             `;
         } else {

@@ -1,7 +1,7 @@
 
 import { User } from './user';
 import DatabaseSingleton from '../database/index';
-import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ, getReportfrAdmninQ, insertProductQ, deleteProductQ, updateQuantityQ } from '../queries/userQueries';
+import { insertNewUser, deleteUserQ, findUserQ, updateUserSalary, getAttendance, submitReportQ, getReportfrAdmninQ, insertProductQ, deleteProductQ, updateQuantityQ, updateProductQ, getProductQ } from '../queries/userQueries';
 import { UserManagement, PerformanceManagement, ProductManagement, Product } from './interfaces';
 import { ProductFactory } from './extendedProduct';
 import { Response, Request } from 'express';
@@ -47,10 +47,23 @@ export class Admin extends User implements UserManagement, PerformanceManagement
     async removeUser(number : Number) : Promise<Object> {
         
         const db = DatabaseSingleton.getInstance().getClient();
+
+        const data = await db.query(findUserQ, [number]);
+
+        if (data.rows.length === 0) {
+            return {'message': 'User not found'};
+        } else if ( data.rows[0].role === 'Admin') {
+            return {'message': 'You cannot Block Admin'};
+        }
+        
         const result = await db.query(deleteUserQ, [number]);
 
         if (result.rows.length > 0) {
-            return { 'message' : result.rows[0].first_name + ' Removed', 'user_id': result.rows[0].user_id};
+            if ( result.rows[0].status === 'active') {
+                return { 'message' : result.rows[0].first_name + ' Activated', 'user_id': result.rows[0].user_id};
+            } else {
+                return { 'message' : result.rows[0].first_name + ' Deactivated', 'user_id': result.rows[0].user_id};
+            }
         } else {
             return {'message': 'User not founded'};
         }
@@ -229,4 +242,42 @@ export class Admin extends User implements UserManagement, PerformanceManagement
         }
     }
 
+    async updateProduct(id: number, name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object> {
+        
+        try {
+            const tempo = ProductFactory.createProduct(name, price, category, quantity, image);
+
+            if (price < 0) {
+                throw new Error ('Price cannot be negative');
+            }
+
+            if ( quantity < 0 ) {
+                throw new Error ('Quantity cannot be negative');
+            }
+
+            const db = DatabaseSingleton.getInstance().getClient();
+            let result = await db.query(updateProductQ, [name, price, category, quantity, image, id]);
+
+            if (result.rows.length > 0) {
+                return { 'message' : 'Product Updated', 'product_id': result.rows[0].product_id};
+            } else {
+                throw new Error ('Product not existed');
+            }
+
+        } catch (error : any) {
+            throw new Error (error.message);
+        }        
+    }
+
+    async getProduct(id: number): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(getProductQ, [id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Product Found', 'Product': result.rows};
+        } else {
+            return {'message': 'No Product Found'};
+        }
+    }
 }

@@ -2,7 +2,7 @@
 import { User } from "./user";
 import { Product } from "./interfaces";
 import DatabaseSingleton from '../database/index';
-import { insertProductQ } from '../queries/userQueries';
+import { insertProductQ, updateProductQ, getProductQ } from '../queries/userQueries';
 import { ProductFactory } from './extendedProduct';
 
 export class ProductManager extends User {
@@ -93,6 +93,45 @@ export class ProductManager extends User {
             return { 'message' : 'Products Found', 'Products': result.rows};
         } else {
             return {'message': 'No Products Found'};
+        }
+    }
+
+    async updateProduct(id: number, name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object> {
+        
+        try {
+            const tempo = ProductFactory.createProduct(name, price, category, quantity, image);
+
+            if (price < 0) {
+                throw new Error ('Price cannot be negative');
+            }
+
+            if ( quantity < 0 ) {
+                throw new Error ('Quantity cannot be negative');
+            }
+
+            const db = DatabaseSingleton.getInstance().getClient();
+            let result = await db.query(updateProductQ, [name, price, category, quantity, image, id]);
+
+            if (result.rows.length > 0) {
+                return { 'message' : 'Product Updated', 'product_id': result.rows[0].product_id};
+            } else {
+                throw new Error ('Product not existed');
+            }
+        } catch (error : any) {
+            throw new Error (error.message);
+        }
+        
+    }
+
+    async getProduct(id: number): Promise<Object> {
+        
+        const db = DatabaseSingleton.getInstance().getClient();
+        const result = await db.query(getProductQ, [id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Product Found', 'Product': result.rows};
+        } else {
+            return {'message': 'No Product Found'};
         }
     }
 }

@@ -108,7 +108,7 @@ export class ElectronicProduct implements Product {
 }
 
 
-export class Hadware extends ElectronicProduct {
+export class Hardware extends ElectronicProduct {
         
     constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
         super(name, price, catagory, stock_quantity, image);
@@ -213,12 +213,12 @@ export class Other implements Product {
 // ProductFactory Class
 export class ProductFactory {
     // Static method to create the appropriate Product instance
-    static createProduct(name: string, price: number, category: string, stock_quantity: number, image: Buffer | null | null): Product {
+    static createProduct(name: string, price: number, category: string, stock_quantity: number, image: Buffer | null): Product {
       switch (category) {
         case 'Halal Meat':
           return new HalalMeat(name, price, category, stock_quantity, image);
         case 'Hardware':
-          return new Hadware(name, price, category, stock_quantity, image);
+          return new Hardware(name, price, category, stock_quantity, image);
         case 'Software':
           return new Software(name, price, category, stock_quantity, image);
         case 'Haram Meat':

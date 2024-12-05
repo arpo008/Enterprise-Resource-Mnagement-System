@@ -31,6 +31,7 @@ import { GetAllUserController } from '../controllers/GetAllUserController';
 import { AddProductController } from '../controllers/AddProductController';
 import { DeleteProductController } from '../controllers/DeleteProductController';
 import { ProductController } from '../controllers/ProductController';
+import { Controller } from '../controllers/Controller';
 
 import hrManagerValidity  from '../middlewares/HrManagerValidity';
 import { add } from 'date-fns';
@@ -51,6 +52,7 @@ const getAllUserController = new GetAllUserController();
 const addProductController = new AddProductController();
 const deleteProductController = new DeleteProductController();
 const productController = new ProductController();
+const controller = new Controller();
 const app = express();
 
 // router.post('/addNewUser', userController.addUser.bind(userController));
@@ -108,6 +110,22 @@ router.post('/updateProductQuantity', (req, res) => {
 
 router.post('/getAllProduct', (req, res) => {
   productController.getAllProduct(req, res);
+});
+
+router.post('/updateProduct', (req, res) => {
+  productController.updateProduct(req, res);
+});
+
+router.post('/buyProduct', (req, res) => {
+  productController.buyProduct(req, res);
+});
+
+router.post('/getProduct', (req, res) => {
+  productController.getProduct(req, res);
+});
+
+router.post('/myData', (req, res) => {
+  controller.myData(req, res);
 });
 
 router.get('/', (req, res) => {

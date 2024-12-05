@@ -10,8 +10,10 @@ CREATE TABLE users (
     salary DECIMAL(10, 2),
     image bytea,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(100)  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
+    role VARCHAR(100),  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
+    status VARCHAR(10) DEFAULT 'active'  -- New column for status (active/inactive)
 );
+
 
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
@@ -46,7 +48,7 @@ CREATE TABLE sales_records (
     sold_by INT REFERENCES users(user_id),  -- User who made the sale
     sale_date DATE,  -- Date of the sale
     total_amount DECIMAL(10, 2)  -- Total amount of the sale (optional, can be calculated)
-);
+);  
 
 CREATE TABLE sales_products (
     record_id INT REFERENCES sales_records(record_id),  -- Link to sales_records
