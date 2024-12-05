@@ -1,69 +1,88 @@
-const purchaseDetails = JSON.parse(localStorage.getItem("purchaseDetails"));
+// Fetch seller data from the backend
+const fetchSellerData = async () => {
+    const authToken = localStorage.getItem("auth_token");
 
-const displayMemo = () => {
-    const purchaseDetailsContainer = document.getElementById("purchase-details");
-    const sellerInfoContainer = document.getElementById("seller-info");
-
-    if (!purchaseDetails) {
-        alert("No purchase details found.");
-        window.location.href = "index.html"; // Redirect if no purchase details are found
+    if (!authToken) {
+        alert("You are not logged in. Please login to access this page.");
+        window.location.href = "login.html";
         return;
     }
 
-    const { products, totalPrice, sellerInfo, date } = purchaseDetails;
+    try {
+        const res = await fetch("http://localhost:3000/api/myData", {
+            method: "POST",
+            headers: { Authorization: `Bearer ${authToken}` },
+        });
 
-    // Display purchase details
-    let productsListHTML = '<div class="grid grid-cols-2 font-semibold text-lg mb-4">';
-    productsListHTML += `<span>Product Name</span><span class="text-right">Price</span></div>`;
+        if (res.ok) {
+            const data = await res.json();
+            if (data && data.Data) {
+                displaySellerInfo(data.Data);
+            } else {
+                alert("Seller data not found.");
+            }
+        } else {
+            const errorData = await res.json();
+            alert("Failed to fetch seller data: " + errorData.message);
+        }
+    } catch (error) {
+        alert("An error occurred while fetching seller data: " + error.message);
+    }
+};
 
-    products.forEach(product => {
-        const itemTotal = product.quantity * product.price;
-        productsListHTML += `
-            <div class="grid grid-cols-2 text-gray-600">
-                <span>${product.name} (${product.quantity} x $${product.price})</span>
-                <span class="text-right">$${itemTotal.toFixed(2)}</span>
-            </div>`;
+// Display seller information in the DOM
+const displaySellerInfo = (sellerData) => {
+    const sellerInfo = document.getElementById("seller-info");
+    if (sellerInfo) {
+        sellerInfo.innerHTML = `
+            <p><strong>Name:</strong> ${sellerData.first_name} ${sellerData.last_name}</p>
+            <p><strong>Address:</strong> ${sellerData.address}</p>
+            <p><strong>Gender:</strong> ${sellerData.gender}</p>
+            <p><strong>Phone:</strong> ${sellerData.telephone}</p>
+            <p><strong>Role:</strong> ${sellerData.role}</p>
+        `;
+    }
+};
+
+// Display product purchase details
+const purchaseDetails = JSON.parse(localStorage.getItem("purchaseDetails"));
+
+const displayProductDetails = () => {
+    const productList = document.getElementById("product-list");
+    if (!purchaseDetails) {
+        productList.innerHTML = "<p>No purchase details available.</p>";
+        return;
+    }
+
+    purchaseDetails.products.forEach((product) => {
+        const div = document.createElement("div");
+        div.className = "bg-white p-4 rounded-lg shadow-md";
+        div.innerHTML = `
+            <h3 class="text-xl font-semibold">${product.name}</h3>
+            <p>Price: $${product.price}</p>
+            <p>Quantity: ${product.quantity}</p>
+            <p>Total: $${(product.quantity * product.price).toFixed(2)}</p>
+        `;
+        productList.appendChild(div);
     });
 
-    productsListHTML += `
-        <div class="mt-4 font-semibold text-lg">
-            <span>Total: $${totalPrice.toFixed(2)}</span>
-        </div>`;
-
-    purchaseDetailsContainer.innerHTML = productsListHTML;
-
-    // Display seller info and date/time
-    sellerInfoContainer.innerHTML = `
-        <p><strong>Seller Info:</strong> ${sellerInfo.name}</p>
-        <p><strong>Seller Email:</strong> ${sellerInfo.email}</p>
-        <p><strong>Purchase Date and Time:</strong> ${date}</p>
-    `;
+    const totalDiv = document.createElement("div");
+    totalDiv.className = "font-semibold text-lg mt-4";
+    totalDiv.innerHTML = `<p>Total Purchase: $${purchaseDetails.totalPrice.toFixed(2)}</p>`;
+    productList.appendChild(totalDiv);
 };
 
-// Handle memo download as PDF
-const downloadMemo = () => {
-    const { jsPDF } = window.jspdf;  // Extract jsPDF from the global window object
-
-    const doc = new jsPDF();
-    
-    const purchaseDetailsContainer = document.getElementById("purchase-details");
-    const sellerInfoContainer = document.getElementById("seller-info");
-
-    doc.setFontSize(18);
-    doc.text("Purchase Memo", 105, 10, { align: "center" });
-
-    doc.setFontSize(12);
-
-    // Add products to PDF
-    const productDetails = purchaseDetailsContainer.innerText;
-    doc.text(productDetails, 10, 20);
-
-    // Add seller info and date/time to PDF
-    const sellerDetails = sellerInfoContainer.innerText;
-    doc.text(sellerDetails, 10, 100);
-
-    doc.save("purchase-memo.pdf");
+// Redirect to the counter page
+const goBack = () => {
+    window.location.href = "counter.html";
 };
 
-// Initialize
-displayMemo();
+// Initialize the page
+document.addEventListener("DOMContentLoaded", () => {
+    fetchSellerData();
+    if (purchaseDetails) {
+        displayProductDetails();
+    } else {
+        console.error("Purchase details not found in localStorage.");
+    }
+});

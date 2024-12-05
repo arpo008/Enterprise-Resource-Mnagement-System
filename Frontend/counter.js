@@ -48,6 +48,20 @@ const fetchProducts = async () => {
     }
 };
 
+// Filter products based on selected category
+const filterProductsByCategory = (category) => {
+    let filteredProducts = [];
+
+    if (category === 'All') {
+        filteredProducts = allProducts; // Show all products
+    } else {
+        filteredProducts = allProducts.filter(product => product.category === category); // Filter by category
+    }
+
+    console.log(`Filtered Products for ${category}: `, filteredProducts);
+    displayProducts(filteredProducts); // Display filtered products
+};
+
 const displayProducts = (products) => {
     const productContainer = document.getElementById("product-container");
     productContainer.innerHTML = ""; // Clear any existing content
@@ -171,6 +185,7 @@ const updateCartUI = () => {
 
     totalPriceDiv.innerHTML = `<p>Total: $${totalPrice.toFixed(2)}</p>`;
 };
+
 
 // Handle purchase
 const purchase = async () => {

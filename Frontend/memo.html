@@ -1,27 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Purchase Memo</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- jsPDF Library -->
 </head>
-<body class="bg-gradient-to-r from-gray-300 to-yellow-300">
+<body class="bg-gradient-to-r from-gray-300 to-yellow-300 h-screen w-screen flex flex-col">
 
-    <div class="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
-        <h1 class="text-3xl font-bold mb-6 text-center">Purchase Memo</h1>
-        <div id="purchase-details" class="space-y-4">
-            <!-- Purchase details will be displayed here -->
+    <!-- Navbar -->
+    <div class="navbar bg-base-100 h-[100px] bg-slate-200 m-3 rounded-lg shadow-lg">
+        <div class="navbar-start">
+            <button class="btn btn-ghost btn-circle" onclick="goBack()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7 7-7M5 12h14" />
+                </svg>
+            </button>
+        </div>
+        <div class="navbar-center flex justify-center w-full">
+            <a href="dashboard.html" class="btn btn-ghost text-3xl font-bold align-middle">Purchase Memo</a>
+        </div>
+    </div>
+
+    <div class="flex-grow flex flex-col px-6 py-4 space-y-6 overflow-y-auto">
+        <!-- Seller Info Section -->
+        <div id="seller-info" class="p-6 bg-white shadow-lg rounded-lg">
+            <h2 class="text-2xl font-semibold mb-4">Seller Information</h2>
+            <!-- Seller info will be inserted here dynamically -->
         </div>
 
-        <div id="seller-info" class="font-semibold mt-6">
-            <!-- Seller info will be displayed here -->
-        </div>
+        <!-- Purchase Details Section -->
+        <div class="p-6 bg-white shadow-lg rounded-lg flex-grow max-h-[500px] overflow-y-auto">
+            <h1 class="text-3xl font-bold mb-6">Purchase Details</h1>
 
-        <div class="mt-6 text-center">
-            <button id="download-btn" class="btn bg-blue-500 hover:bg-blue-700 w-[200px]" onclick="downloadMemo()">Download Memo</button>
+            <!-- Product List -->
+            <div id="product-list" class="space-y-4">
+                <!-- Product details will be inserted here dynamically -->
+            </div>
+        </div>
+        
+        <!-- Go Back Button at the bottom -->
+        <div class="flex justify-center mt-auto mb-4">
+            <button onclick="goBack()" class="btn btn-secondary w-32">Go Back</button>
         </div>
     </div>
 
