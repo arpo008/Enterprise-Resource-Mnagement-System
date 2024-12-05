@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graph</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body>
+
+    <!-- Date Picker Form -->
+    <div class="w-10/12 h-[700px] m-32 bg-white rounded-lg shadow dark:bg-white p-4 md:p-6">
+        <h1 class="text-3xl font-bold text-center text-black">Product Sales CHART</h1>
+        <div class="flex justify-between border-gray-200 border-b dark:border-black pb-3">
+            <dl>
+                <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Graph Chart</dt>
+                <dd class="leading-none text-3xl font-bold text-gray-900 dark:text-white"></dd>
+            </dl>
+            <div>
+                <span class="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
+                    <svg class="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+                    </svg>
+                   
+                </span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 py-3">
+            <dl>
+                <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1"></dt>
+                <dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400"></dd>
+            </dl>
+            <dl>
+                <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1"></dt>
+                <dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500"></dd>
+            </dl>
+        </div>
+
+        <!-- Date Range Inputs -->
+        <div class="flex justify-between items-center pt-5">
+            <input type="date" id="startDate" class="p-2 border rounded" />
+            <input type="date" id="endDate" class="p-2 border rounded" />
+            <input type="number" id="id" placeholder="Product ID" class="p-2 border rounded">
+            <button id="getGraphBtn" class="px-4 py-2 bg-red-500 text-white rounded">Get Graph</button>
+        </div>
+
+        <!-- Graph will be displayed here -->
+        <div id="bar-chart"></div>
+    </div>
+
+    <!-- JS File at the End -->
+    <script src="graph_product.js"></script>
+</body>
+</html>

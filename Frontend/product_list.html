@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <script src="product_list.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@latest/dist/full.css" rel="stylesheet" type="text/css">
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto mt-8 p-4">
+        <!-- Page Title -->
+        <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Product List</h1>
+
+        <!-- Loading and Error Messages -->
+        <div id="loading" class="hidden text-center text-blue-500 font-semibold mb-4">
+            Loading...
+        </div>
+        <div id="errorMessage" class="hidden text-center text-red-500 font-semibold mb-4">
+        </div>
+
+        <!-- Product Table -->
+        <div class="overflow-x-auto">
+            <table class="table table-zebra w-full">
+                <thead>
+                    <tr>
+                        <th class="text-gray-800">ID</th>
+                        <th class="text-gray-800">Name</th>
+                        <th class="text-gray-800">Category</th>
+                        <th class="text-gray-800">Price</th>
+                        <th class="text-gray-800">Quantity</th>
+                        <th class="text-gray-800">Image</th>
+                    </tr>
+                </thead>
+                <tbody id="productTableBody">
+                    <!-- Product rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
