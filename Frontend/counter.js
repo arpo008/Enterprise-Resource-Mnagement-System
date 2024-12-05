@@ -186,6 +186,27 @@ const updateCartUI = () => {
     totalPriceDiv.innerHTML = `<p>Total: $${totalPrice.toFixed(2)}</p>`;
 };
 
+// Buy Bag functionality
+const selectBag = (bagType) => {
+    let message;
+    switch (bagType) {
+        case "ClothBag":
+            message = "You have chosen a Cloth Bag.";
+            break;
+        case "PlasticBag":
+            message = "You have chosen a Plastic Bag.";
+            break;
+        case "Trolley":
+            message = "You have chosen a Trolley.";
+            break;
+        case "NoBag":
+            message = "You have chosen No Bag.";
+            break;
+        default:
+            message = "Invalid bag type selected.";
+    }
+    alert(message);
+};
 
 // Handle purchase
 const purchase = async () => {

@@ -27,9 +27,7 @@
             <a href="dashboard.html" class="btn btn-ghost text-3xl font-bold">Enterprise Resource Management System</a>
         </div>
         <div class="navbar-end">
-            <div>
-                <button class="btn mr-5" onclick="logout()">Log Out</button>
-            </div>
+            <button class="btn mr-5" onclick="logout()">Log Out</button>
         </div>
     </div>
 
@@ -59,24 +57,35 @@
         </div>
 
         <!-- Cart Section -->
-<div class="w-[400px] h-screen p-6 bg-white shadow-lg overflow-y-auto fixed right-0 top-[110px]">
-    <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
-    <div class="grid grid-cols-2 font-semibold text-lg mb-4">
-        <span>Product Name</span>
-        <span class="text-right">Price</span>
-    </div>
-    <div id="cart-items" class="space-y-4"></div>
-    <div id="total-price" class="mt-6 font-semibold text-lg"></div>
+        <div class="w-[400px] h-screen p-6 bg-white shadow-lg overflow-y-auto fixed right-0 top-[110px]">
+            <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
+            <div class="grid grid-cols-2 font-semibold text-lg mb-4">
+                <span>Product Name</span>
+                <span class="text-right">Price</span>
+            </div>
+            <div id="cart-items" class="space-y-4"></div>
+            <div id="total-price" class="mt-6 font-semibold text-lg"></div>
 
-            <!-- Buy Bag & Purchase Buttons -->
-            <div class="flex justify-between gap-4 mt-8">
-                <button class="btn bg-green-500 hover:bg-green-700 w-[100px]" onclick="buyBag()">Buy Bag</button>
+            <!-- Dropdown for Bag Selection -->
+            <div class="flex flex-col mt-8">
+                <label for="bag-selection" class="mb-2 font-bold text-lg">Choose a Bag:</label>
+                <select id="bag-selection" class="select select-bordered w-full max-w-xs" onchange="handleBagSelection(this.value)">
+                    <option value="NoBag">No Bag</option>
+                    <option value="ClothBag">Cloth Bag</option>
+                    <option value="PlasticBag">Plastic Bag</option>
+                    <option value="Trolley">Trolley</option>
+                </select>
+            </div>
+
+            <!-- Purchase Button -->
+            <div class="mt-8 flex justify-end">
                 <button class="btn bg-blue-500 hover:bg-blue-700 w-[100px]" onclick="purchase()">Purchase</button>
             </div>
         </div>
     </div>
 
     <script src="counter.js"></script>
+    <script src="buy_bag.js"></script>
     <script src="logout.js"></script>
 </body>
 </html>

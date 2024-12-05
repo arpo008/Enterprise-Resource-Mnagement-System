@@ -46,6 +46,7 @@ const displaySellerInfo = (sellerData) => {
 
 // Display product purchase details
 const purchaseDetails = JSON.parse(localStorage.getItem("purchaseDetails"));
+const selectedBag = localStorage.getItem("selectedBag") || "No Bag"; // Fetch bag type from localStorage or default to "No Bag"
 
 const displayProductDetails = () => {
     const productList = document.getElementById("product-list");
@@ -65,6 +66,11 @@ const displayProductDetails = () => {
         `;
         productList.appendChild(div);
     });
+
+    const bagInfoDiv = document.createElement("div");
+    bagInfoDiv.className = "bg-white p-4 rounded-lg shadow-md";
+    bagInfoDiv.innerHTML = `<p><strong>Bag Details:</strong> ${selectedBag}</p>`;
+    productList.appendChild(bagInfoDiv);
 
     const totalDiv = document.createElement("div");
     totalDiv.className = "font-semibold text-lg mt-4";

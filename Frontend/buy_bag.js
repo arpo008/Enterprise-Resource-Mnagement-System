@@ -5,28 +5,25 @@ class Bag {
     }
 }
 
-// Concrete Strategy 1: ClothBag
+// Concrete Strategies
 class ClothBag extends Bag {
     carry() {
         return "Carrying items in a cloth bag.";
     }
 }
 
-// Concrete Strategy 2: PlasticBag
 class PlasticBag extends Bag {
     carry() {
         return "Carrying items in a plastic bag.";
     }
 }
 
-// Concrete Strategy 3: Trolley
 class Trolley extends Bag {
     carry() {
         return "Carrying items in a trolley.";
     }
 }
 
-// Concrete Strategy 4: NoBag
 class NoBag extends Bag {
     carry() {
         return "Not carrying any bag.";
@@ -48,45 +45,34 @@ class Shopper {
     }
 }
 
-// Client Code
+// Bag instances
 const clothBag = new ClothBag();
 const plasticBag = new PlasticBag();
 const trolley = new Trolley();
 const noBag = new NoBag();
 
-// Initially using ClothBag
-const shopper = new Shopper(clothBag);
-console.log(shopper.carryItems()); // Output: Carrying items in a cloth bag.
+// Shopper instance
+const shopper = new Shopper(noBag); // Default strategy
 
-shopper.setStrategy(plasticBag); // Switching to PlasticBag
-console.log(shopper.carryItems()); // Output: Carrying items in a plastic bag.
-
-shopper.setStrategy(trolley); // Switching to Trolley
-console.log(shopper.carryItems()); // Output: Carrying items in a trolley.
-
-shopper.setStrategy(noBag); // Switching to NoBag
-console.log(shopper.carryItems()); // Output: Not carrying any bag.
-
-let selectedBag = null;
-
-// Function to show the dropdown menu and select a bag
-const showBagDropdown = () => {
-    const dropdownMenu = document.getElementById("dropdown-menu");
-    dropdownMenu.classList.toggle("hidden");
-};
-
-const selectBag = (bagType) => {
-    if (bagType === "clothBag") {
-        shopper.setStrategy(clothBag);
-    } else if (bagType === "plasticBag") {
-        shopper.setStrategy(plasticBag);
-    } else if (bagType === "trolley") {
-        shopper.setStrategy(trolley);
-    } else if (bagType === "noBag") {
-        shopper.setStrategy(noBag);
+// Handle Bag Selection
+const handleBagSelection = (bagType) => {
+    switch (bagType) {
+        case "ClothBag":
+            shopper.setStrategy(clothBag);
+            break;
+        case "PlasticBag":
+            shopper.setStrategy(plasticBag);
+            break;
+        case "Trolley":
+            shopper.setStrategy(trolley);
+            break;
+        case "NoBag":
+            shopper.setStrategy(noBag);
+            break;
+        default:
+            alert("Invalid bag type");
+            return;
     }
-    
-    alert(shopper.carryItems());  // Display the selected bag's message
-    const dropdownMenu = document.getElementById("dropdown-menu");
-    dropdownMenu.classList.add("hidden");  // Hide dropdown after selection
+    localStorage.setItem("selectedBag", bagType); // Save selected bag in localStorage
+    alert(shopper.carryItems());
 };
