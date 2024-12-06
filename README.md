@@ -1,14 +1,14 @@
-# Software Engineering
-## section: 03 
-# Group: ERPS
-## Md Tanvirul Islam Niloy - 221 2806 042
-## Anindita Das Mishi - 221 1364 642
-## Arpo Roy - 221 2656 042
-## Raiyan Masood Hriddho -193 1117 042
+## Software Engineering
+### section: 03 
+## Group: ERPS
+### Md Tanvirul Islam Niloy - 221 2806 042
+### Anindita Das Mishi - 221 1364 642
+### Arpo Roy - 221 2656 042
+### Raiyan Masood Hriddho -193 1117 042
 
-# Enterprise Resource Management System (ERP)
+## Enterprise Resource Management System (ERP)
 
-## Overview
+### Overview
 This project is an Enterprise Resource Management System designed to streamline operations, manage resources, and enhance administrative control through a role-based access system. It is built using Node.js and Express, leveraging object-oriented programming principles to organize user roles and functionalities.
 
 ## Features
@@ -36,6 +36,10 @@ The system utilizes a class-based structure to define user roles and their inter
 - **Frontend**: (Optional) Describe if there's any frontend component.
 
 ## Installation
+node.js
+npm
+typescript
+javascript
 
 ### Prerequisites
 - Node.js
@@ -45,11 +49,11 @@ The system utilizes a class-based structure to define user roles and their inter
 ### Setup
 Clone the repository and install the dependencies.
 
-# Design Pattern 
-## Singleton design pattern. (For db)
-## Abstract factory design pattern.( extending the employee)
-## Builder design pattern.(for building the user)
-## Observer Design pattern. (employee observing the shop manager)
+## Design Pattern 
+### Singleton design pattern. (For db)
+### Factory design pattern.( extending the employee)
+### Builder design pattern.(for building the user)
+### Observer Design pattern. (employee observing the shop manager)
 ## strategy design pattern. (Adding the bag in the cart)
 ## Composite Design Pattern. (Extending the product class)
 
