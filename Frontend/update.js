@@ -1,40 +1,22 @@
 document.querySelector('#updateForm').addEventListener('submit', async (event) => {
     event.preventDefault();
 
-    // Capture the form data
-    const id = document.querySelector('#id').value;
+    const id = parseInt(document.querySelector('#id').value, 10);
     const category = document.querySelector('#category').value;
     const name = document.querySelector('#name').value;
-    const price = document.querySelector('#price').value;
-    const quantity = document.querySelector('#quantity').value;
-    const image = document.querySelector('#image').files[0];  // Capture the image file
+    const price = parseFloat(document.querySelector('#price').value);
+    const quantity = parseInt(document.querySelector('#quantity').value, 10);
 
-    // Validate if all fields are filled
     if (!id || !category || !name || !price || !quantity) {
         alert('Please fill in all the required fields.');
         return;
     }
 
-    // Create a FormData object
-    const formData = new FormData();
-    formData.append('id', id);          // Append ID
-    formData.append('category', category);  // Append category
-    formData.append('name', name);     // Append name
-    formData.append('price', price);   // Append price
-    formData.append('quantity', quantity); // Append quantity
-
-    // If an image is selected, append it to FormData
-    if (image) {
-        formData.append('image', image);  // Append the image file
-    } else {
-        formData.append('image', null);   // If no image is selected, append null
-    }
+    const payload = { id, category, name, price, quantity };
+    console.log('Payload being sent:', JSON.stringify(payload));
 
     const API_URL = 'http://localhost:3000/api/updateProduct';
-    const authToken = localStorage.getItem('auth_token');  // Retrieve auth token from localStorage
-
-    // Log the token for debugging
-    console.log('Authorization Token:', authToken);
+    const authToken = localStorage.getItem('auth_token');
 
     if (!authToken) {
         alert('Authorization token is missing. Please login first.');
@@ -42,27 +24,25 @@ document.querySelector('#updateForm').addEventListener('submit', async (event) =
     }
 
     try {
-        // Send the PUT request with FormData and Authorization token
         const response = await fetch(API_URL, {
-            method: 'POST',
+            method: 'POST', // Use PUT for updates
             headers: {
-                'Authorization': `Bearer ${authToken}`,  // Attach token to the request
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`,
             },
-            body: formData,
+            body: JSON.stringify(payload),
         });
 
-        // Check if the response is okay
         const data = await response.json();
         console.log('API Response:', data);
 
         if (response.ok) {
             alert(`Product with ID ${data.product_id} has been updated.`);
+            window.location.href="product_Manager.html"
         } else {
-            // Show backend error message
             alert('Error: ' + (data.message || 'Unknown error'));
         }
     } catch (error) {
-        // Handle fetch errors
         console.error('Error during fetch request:', error);
         alert('An error occurred. Please check the console for more details.');
     }
