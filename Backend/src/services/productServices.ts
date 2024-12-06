@@ -84,6 +84,17 @@ export class productService {
                 admin = new Admin (userBuilder.build());
             } else if ( tokenVerified.role === 'Product Manager' ) {
                 admin = new ProductManager(userBuilder.build());
+            } else if ( tokenVerified.role === 'Seller' ) {
+                const employeeFactory = new EmployeeFactory();
+                admin = employeeFactory.getEmployee(userBuilder.build());
+
+                if ( admin instanceof Seller ) {
+                    admin = admin as Seller;
+                } else {
+                    res.status(401).json({ message: 'You are Unauthorized for this' });
+                    return;
+                }
+
             } else {
                 res.status(401).json({ message: 'You are Unauthorized for this' });
                 return;

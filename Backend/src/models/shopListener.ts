@@ -2,7 +2,7 @@
 import { User } from './user';
 import { Employee, Products } from './interfaces';
 import DatabaseSingleton from '../database/index';
-import { getSalesRecordQ, addSoldProductsQ, getProductQ } from '../queries/userQueries';
+import { getSalesRecordQ, addSoldProductsQ, getProductQ, updateQuantityQ } from '../queries/userQueries';
 import { ProductFactory } from './extendedProduct';
 import { HalalMeat, Hardware, Software, HaramMeat, GroceryProduct, Other } from './extendedProduct';
 import { number } from 'zod';
@@ -154,6 +154,30 @@ export class Seller extends User implements Employee {
             return { 'message' : 'Product Found', 'Product': result.rows};
         } else {
             return {'message': 'No Product Found'};
+        }
+    }
+
+    async updateQuantity(id: number, quantity: number): Promise<Object> {
+            
+        const db = DatabaseSingleton.getInstance().getClient();
+        let result = await db.query('SELECT * FROM products WHERE product_id = $1', [id]);
+
+        if (result.rows.length === 0) {
+            throw new Error ('Product not found');
+        }
+
+        if (quantity < 0) {
+            throw new Error ('Quantity cannot be negative');
+        }
+
+        quantity += result.rows[0].stock_quantity;
+
+        result = await db.query(updateQuantityQ, [quantity, id]);
+
+        if (result.rows.length > 0) {
+            return { 'message' : 'Quantity Updated', 'product_id': result.rows[0].product_id, 'new_quantity': result.rows[0].stock_quantity};
+        } else {
+            throw new Error ('Quantity not updated');
         }
     }
     
