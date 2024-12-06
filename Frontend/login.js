@@ -57,7 +57,7 @@ document.querySelector('button[type="submit"]').addEventListener('click', async 
         } else if (role === 'HR Manager') {
           window.location.href = 'HR_manager.html';
         } else if (role === 'Product Manager') {
-          window.location.href = 'product_manager.html';
+          window.location.href = 'product_Manager.html';
         } else if (role === 'Shop Manager') {
           window.location.href = 'shop_Manager.html';
         } else if (role === 'Seller') {
