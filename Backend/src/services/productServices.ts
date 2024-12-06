@@ -401,55 +401,55 @@ export class productService {
     }
 
     // Add the method for fetching sales of a single product
-async getProductSales(req: Request, res: Response): Promise<void> {
-    try {
-        const token = req.headers.authorization?.split(' ')[1];
+    async getProductSales(req: Request, res: Response): Promise<void> {
+        try {
+            const token = req.headers.authorization?.split(' ')[1];
 
-        if (!token) {
-            res.status(401).json({ message: 'Login First' });
-            return;
-        }
+            if (!token) {
+                res.status(401).json({ message: 'Login First' });
+                return;
+            }
 
-        const tokenVerified = verifyToken(token);
+            const tokenVerified = verifyToken(token);
 
-        if (tokenVerified == null) {
-            res.status(401).json({ message: 'Invalid Token' });
-            return;
-        }
+            if (tokenVerified == null) {
+                res.status(401).json({ message: 'Invalid Token' });
+                return;
+            }
 
-        const parsedBody = getProductSalesSchema.parse(req.body); // Assuming you have a schema for validation
-        const { start_date, end_date, id } = parsedBody;
+            const parsedBody = getProductSalesSchema.parse(req.body); // Assuming you have a schema for validation
+            const { start_date, end_date, id } = parsedBody;
 
-        const userBuilder = new UserBuilder()
-            .setId(tokenVerified.user_id)
-            .setRole(tokenVerified.role);
+            const userBuilder = new UserBuilder()
+                .setId(tokenVerified.user_id)
+                .setRole(tokenVerified.role);
 
-        let admin;
-        if (tokenVerified.role === 'Admin') {
-            admin = new Admin(userBuilder.build());
-        } else if (tokenVerified.role === 'Product Manager') {
-            admin = new ProductManager(userBuilder.build());
-        } else {
-            res.status(401).json({ message: 'You are Unauthorized for this' });
-            return;
-        }
+            let admin;
+            if (tokenVerified.role === 'Admin') {
+                admin = new Admin(userBuilder.build());
+            } else if (tokenVerified.role === 'Product Manager') {
+                admin = new ProductManager(userBuilder.build());
+            } else {
+                res.status(401).json({ message: 'You are Unauthorized for this' });
+                return;
+            }
 
-        // Get product sales using the newly created method
-        admin?.getProductSalesBetweenDates(start_date, end_date, id).then((result) => {
-            res.status(200).json(result);
-        }).catch((error: any) => {
-            res.status(500).json({ message: error.message });
-        });
+            // Get product sales using the newly created method
+            admin?.getProductSalesBetweenDates(start_date, end_date, id).then((result) => {
+                res.status(200).json(result);
+            }).catch((error: any) => {
+                res.status(500).json({ message: error.message });
+            });
 
-    } catch (error: any) {
-        console.error('Error executing query:', error.message);
-        if (error instanceof z.ZodError) {
-            res.status(400).json({ message: "Invalid data type" });
-        } else {
-            res.status(500).json({ message: error.message });
+        } catch (error: any) {
+            console.error('Error executing query:', error.message);
+            if (error instanceof z.ZodError) {
+                res.status(400).json({ message: "Invalid data type" });
+            } else {
+                res.status(500).json({ message: error.message });
+            }
         }
     }
-}
 
 }
 

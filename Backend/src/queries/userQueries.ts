@@ -91,7 +91,7 @@ const updateQuantityQ: string = `
 const updateProductQ: string = `
   UPDATE products
   SET name = $1, price = $2, category = $3, stock_quantity = $4, updated_at = CURRENT_TIMESTAMP
-  WHERE product_id = $6
+  WHERE product_id = $5
   RETURNING *;
 `;
 
