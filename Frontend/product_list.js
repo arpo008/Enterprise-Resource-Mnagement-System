@@ -60,11 +60,6 @@ async function fetchAndDisplayProducts() {
                 <td>${product.price}</td>
                 <td>${product.quantity}</td>
                 <td>
-                    ${product.image 
-                        ? `<img src="data:image/jpeg;base64,${product.image}" alt="${product.name}" width="50"/>`
-                        : "No Image"}
-                </td>
-                <td>
                     <!-- Update button passes product_id and category -->
                     <a href="update.html?product_id=${product.product_id}&category=${product.category}" class="btn bg-yellow-500 font-bold">Update</a>
                 </td>

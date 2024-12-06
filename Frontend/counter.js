@@ -80,15 +80,7 @@ const displayProducts = (products) => {
         const div = document.createElement("div");
         div.className = "card bg-white shadow-md rounded-lg overflow-hidden";
 
-        // Decode the image from base64
-        const imageBase64 = `data:image/png;base64,${btoa(
-            String.fromCharCode(...product.image.data)
-        )}`;
-
         div.innerHTML = `
-            <figure class="w-full">
-                <img src="${imageBase64}" alt="${product.name}" class="w-full h-48 object-cover">
-            </figure>
             <div class="p-4">
                 <h2 class="text-xl font-bold mb-2">${product.name}</h2>
                 <p class="text-gray-600">Category: ${product.category}</p>

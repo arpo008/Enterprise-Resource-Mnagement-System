@@ -53,6 +53,8 @@ const noBag = new NoBag();
 
 // Shopper instance
 const shopper = new Shopper(noBag); // Default strategy
+shopper.setStrategy (noBag);
+localStorage.setItem("selectedBag", shopper.carryItems()); 
 
 // Handle Bag Selection
 const handleBagSelection = (bagType) => {
@@ -73,6 +75,6 @@ const handleBagSelection = (bagType) => {
             alert("Invalid bag type");
             return;
     }
-    localStorage.setItem("selectedBag", bagType); // Save selected bag in localStorage
+    localStorage.setItem("selectedBag", bagType); 
     alert(shopper.carryItems());
 };

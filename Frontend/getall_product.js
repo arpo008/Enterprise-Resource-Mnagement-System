@@ -67,9 +67,6 @@ async function fetchAndDisplayProducts() {
                 <td class="text-center">$${parseFloat(product.price).toFixed(2)}</td>
                 <td class="text-center">${product.category}</td>
                 <td class="text-center">${product.stock_quantity}</td>
-                <td class="text-center">
-                    <img src="data:image/jpeg;base64,${product.image}" alt="${product.name}" class="w-16 h-16 object-cover" />
-                </td>
                 <td class="text-center">${new Date(product.created_at).toLocaleDateString()}</td>
                 <td class="text-center">${new Date(product.updated_at).toLocaleDateString()}</td>
             `;

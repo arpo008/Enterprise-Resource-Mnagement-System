@@ -57,7 +57,7 @@ document.getElementById('performanceForm').addEventListener('submit', async (eve
             // Handle error responses from backend
             if (result.message && result.message.includes("jwt expired")) {
                 alert('Your session has expired. Please log in again.');
-                window.location.href = 'login.html'; // Redirect to login page
+                window.location.href = 'performance.html'; // Redirect to login page
             } else {
                 alert('Error: ' + result.message); // Show error message from backend
             }

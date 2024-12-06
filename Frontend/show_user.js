@@ -31,9 +31,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (response.ok) {
             const user = result.user;
 
-            // Assuming user.image is already a Base64 string
-            const imageBase64 = user.image; 
-
             userDetailsDiv.innerHTML = `
                 <tr>
                     <td class="py-3 px-5 border-b"><strong>User ID:</strong></td>
@@ -74,12 +71,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <tr>
                     <td class="py-3 px-5 border-b"><strong>Role:</strong></td>
                     <td class="py-3 px-5 border-b">${user.role}</td>
-                </tr>
-                <tr class="p-10">
-                    <td class="py-3 px-5 border-b"><strong>Image:</strong></td>
-                    <td class="py-3 px-5 border-b">
-                        <img src="${imageBase64}" alt="${user.first_name} ${user.last_name}" class="w-64 h-auto rounded-lg shadow-md"> <!-- Adjusted image size -->
-                    </td>
                 </tr>
             `;
         } else {

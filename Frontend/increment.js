@@ -41,7 +41,7 @@ async function addIncrement() {
 
         if (response.ok) {
             alert(result.message || "Increment added successfully.");
-            window.location.href="Admin.html";
+            window.location.href="increment_salary.html";
         } else {
             alert(result.message || "An error occurred.");
         }
