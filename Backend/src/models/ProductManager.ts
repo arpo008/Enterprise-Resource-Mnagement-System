@@ -19,12 +19,11 @@ export class ProductManager extends User {
             user.age,
             user.salary,
             user.password,
-            user.image,
             "Product Manager"
         );
     }
 
-    async addProduct(name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object> {
+    async addProduct(name: string, price: number, category: string, quantity: number): Promise<Object> {
         
         const db = DatabaseSingleton.getInstance().getClient();
         const product = await db.query('SELECT * FROM products WHERE name = $1', [name]);
@@ -34,7 +33,7 @@ export class ProductManager extends User {
         }
 
         try {
-            const tempo = ProductFactory.createProduct(name, price, category, quantity, image);
+            const tempo = ProductFactory.createProduct(name, price, category, quantity);
 
             if (price < 0) {
                 throw new Error ('Price cannot be negative');
@@ -47,7 +46,7 @@ export class ProductManager extends User {
             throw new Error (error.message);
         }
         
-        const result = await db.query(insertProductQ, [ name, price, category, quantity, image ]);
+        const result = await db.query(insertProductQ, [ name, price, category, quantity]);
 
         if (result.rows.length > 0) {
             return { 'message' : 'Product Added', 'product_id': result.rows[0].product_id};
@@ -90,16 +89,28 @@ export class ProductManager extends User {
         const result = await db.query('SELECT * FROM products');
 
         if (result.rows.length > 0) {
+
+            for (let i = 0; i < result.rows.length; i++) {
+                const product = result.rows[i]; 
+                const productInstance = ProductFactory.createProduct(
+                    product.name, 
+                    product.price, 
+                    product.category, 
+                    product.stock_quantity
+                );
+                result.rows[i].type = productInstance.getType();
+            }
+
             return { 'message' : 'Products Found', 'Products': result.rows};
         } else {
             return {'message': 'No Products Found'};
         }
     }
 
-    async updateProduct(id: number, name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object> {
+    async updateProduct(id: number, name: string, price: number, category: string, quantity: number): Promise<Object> {
         
         try {
-            const tempo = ProductFactory.createProduct(name, price, category, quantity, image);
+            const tempo = ProductFactory.createProduct(name, price, category, quantity);
 
             if (price < 0) {
                 throw new Error ('Price cannot be negative');
@@ -110,7 +121,7 @@ export class ProductManager extends User {
             }
 
             const db = DatabaseSingleton.getInstance().getClient();
-            let result = await db.query(updateProductQ, [name, price, category, quantity, image, id]);
+            let result = await db.query(updateProductQ, [name, price, category, quantity, id]);
 
             if (result.rows.length > 0) {
                 return { 'message' : 'Product Updated', 'product_id': result.rows[0].product_id};

@@ -7,14 +7,12 @@ export class MeatProduct implements Product {
     price: number;
     category: string;
     stock_quantity: number;
-    image: Buffer | null;
   
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
       this.name = name;
       this.price = price;
       this.category = catagory;
       this.stock_quantity = stock_quantity;
-      this.image = image;
     }
   
     // Optionally, you can add methods related to the product if needed, for example:
@@ -41,8 +39,8 @@ export class MeatProduct implements Product {
 
 export class HalalMeat extends MeatProduct {
     
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
-        super(name, price, catagory, stock_quantity, image);
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
+        super(name, price, catagory, stock_quantity);
     }
 
     isHalal(): string {
@@ -56,8 +54,8 @@ export class HalalMeat extends MeatProduct {
 
 export class HaramMeat extends MeatProduct {
     
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
-        super(name, price, catagory, stock_quantity, image);
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
+        super(name, price, catagory, stock_quantity);
     }
 
     isHalal(): string {
@@ -75,14 +73,12 @@ export class ElectronicProduct implements Product {
     price: number;
     category: string;
     stock_quantity: number;
-    image: Buffer | null;
   
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
       this.name = name;
       this.price = price;
       this.category = catagory;
       this.stock_quantity = stock_quantity;
-      this.image = image;
     }
   
     // Optionally, you can add methods related to the product if needed, for example:
@@ -110,8 +106,8 @@ export class ElectronicProduct implements Product {
 
 export class Hardware extends ElectronicProduct {
         
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
-        super(name, price, catagory, stock_quantity, image);
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
+        super(name, price, catagory, stock_quantity);
     }
 
     provideSoftware(): string {
@@ -125,8 +121,8 @@ export class Hardware extends ElectronicProduct {
 
 export class Software extends ElectronicProduct {
         
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
-        super(name, price, catagory, stock_quantity, image);
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
+        super(name, price, catagory, stock_quantity);
     }
 
     getType(): string {
@@ -140,14 +136,12 @@ export class GroceryProduct implements Product {
     price: number;
     category: string;
     stock_quantity: number;
-    image: Buffer | null;
   
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
       this.name = name;
       this.price = price;
       this.category = catagory;
       this.stock_quantity = stock_quantity;
-      this.image = image;
     }
   
     // Optionally, you can add methods related to the product if needed, for example:
@@ -178,14 +172,12 @@ export class Other implements Product {
     price: number;
     category: string;
     stock_quantity: number;
-    image: Buffer | null;
   
-    constructor(name: string, price: number, catagory: string, stock_quantity: number, image: Buffer | null) {
+    constructor(name: string, price: number, catagory: string, stock_quantity: number) {
       this.name = name;
       this.price = price;
       this.category = catagory;
       this.stock_quantity = stock_quantity;
-      this.image = image;
     }
   
     // Optionally, you can add methods related to the product if needed, for example:
@@ -213,22 +205,23 @@ export class Other implements Product {
 // ProductFactory Class
 export class ProductFactory {
     // Static method to create the appropriate Product instance
-    static createProduct(name: string, price: number, category: string, stock_quantity: number, image: Buffer | null): Product {
+    static createProduct(name: string, price: number, category: string, stock_quantity: number): Product {
       switch (category) {
         case 'Halal Meat':
-          return new HalalMeat(name, price, category, stock_quantity, image);
+          return new HalalMeat(name, price, category, stock_quantity);
         case 'Hardware':
-          return new Hardware(name, price, category, stock_quantity, image);
+          return new Hardware(name, price, category, stock_quantity);
         case 'Software':
-          return new Software(name, price, category, stock_quantity, image);
+          return new Software(name, price, category, stock_quantity);
         case 'Haram Meat':
-            return new HaramMeat(name, price, category, stock_quantity, image);
+            return new HaramMeat(name, price, category, stock_quantity);
         case 'Grocery Product':
-            return new GroceryProduct(name, price, category, stock_quantity, image);
+            return new GroceryProduct(name, price, category, stock_quantity);
         case 'Other':
-            return new Other(name, price, category, stock_quantity, image);
+            return new Other(name, price, category, stock_quantity);
         default:
-          throw new Error("Unknown product type");
+          console.log("Unknown product type, " + category);
+          throw new Error("Unknown product type, " + category);
       }
     }
 }

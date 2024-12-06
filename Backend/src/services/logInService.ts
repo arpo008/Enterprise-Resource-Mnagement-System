@@ -24,7 +24,6 @@ export const logInService = async (user_id: number, providedPassword: string) =>
         } else {
             let userData = result.rows[0];
             delete userData.password;
-            delete userData.image;
 
             const database = DatabaseSingleton.getInstance();
             const client = database.getClient();   

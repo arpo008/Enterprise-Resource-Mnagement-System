@@ -7,8 +7,8 @@ const getAllUsers: string = `
 `;
 
 const insertNewUser: string = `
-  INSERT INTO users(first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role) 
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) 
+  INSERT INTO users(first_name, last_name, address, gender, dob, telephone, age, salary, password, role) 
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) 
   RETURNING *;
 `;
 
@@ -72,8 +72,8 @@ const getReportfrAdmninQ: string = `
 `;
 
 const insertProductQ: string = `
-  INSERT INTO products(name, price, category, stock_quantity, image, created_at, updated_at) 
-  VALUES ($1, $2, $3, $4, $5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
+  INSERT INTO products(name, price, category, stock_quantity, created_at, updated_at) 
+  VALUES ($1, $2, $3, $4, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP) 
   RETURNING *;
 `;
 
@@ -90,7 +90,7 @@ const updateQuantityQ: string = `
 
 const updateProductQ: string = `
   UPDATE products
-  SET name = $1, price = $2, category = $3, stock_quantity = $4, image = $5, updated_at = CURRENT_TIMESTAMP
+  SET name = $1, price = $2, category = $3, stock_quantity = $4, updated_at = CURRENT_TIMESTAMP
   WHERE product_id = $6
   RETURNING *;
 `;

@@ -39,8 +39,7 @@ export class addUserService {
                     .setDOB(new Date(req.body.dob))  // Ensuring date conversion
                     .setTelephone(req.body.telephone)
                     .setAge(req.body.age)
-                    .setSalary(req.body.salary)
-                    .setImage(req.body.image)  // Handle binary data as necessary
+                    .setSalary(req.body.salary)  // Handle binary data as necessary
                     .setPassword(hashedPassword) 
                     .setRole(req.body.role)
 

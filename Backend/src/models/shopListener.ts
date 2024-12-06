@@ -21,7 +21,6 @@ export class Seller extends User implements Employee {
             user.age,
             user.salary,
             user.password,
-            user.image,
             'Seller'  // Set the role as Seller for the Seller class
         );
     }
@@ -36,6 +35,18 @@ export class Seller extends User implements Employee {
         const result = await db.query('SELECT * FROM products');
 
         if (result.rows.length > 0) {
+
+            for (let i = 0; i < result.rows.length; i++) {
+                const product = result.rows[i]; 
+                const productInstance = ProductFactory.createProduct(
+                    product.name, 
+                    product.price, 
+                    product.category, 
+                    product.stock_quantity
+                );
+                result.rows[i].type = productInstance.getType();
+            }
+
             return { 'message' : 'Products Found', 'Products': result.rows};
         } else {
             return {'message': 'No Products Found'};
@@ -71,8 +82,7 @@ export class Seller extends User implements Employee {
                             availableProduct.name, 
                             availableProduct.price, 
                             availableProduct.category, 
-                            availableProduct.stock_quantity, 
-                            availableProduct.image
+                            availableProduct.stock_quantity
                         );
                         
                         let type = productInstance.getType();
@@ -163,7 +173,6 @@ export class ShopWorker extends User implements Employee {
             user.age,
             user.salary,
             user.password,
-            user.image,
             'Shop Worker'  // Set the role as Seller for the Seller class
         );
     }
@@ -187,7 +196,6 @@ export class Cleaner extends User implements Employee {
             user.age,
             user.salary,
             user.password,
-            user.image,
             'Cleaner'  // Set the role as Seller for the Seller class
         );
     }
@@ -212,7 +220,6 @@ export class Guard extends User implements Employee {
             user.age,
             user.salary,
             user.password,
-            user.image,
             'Guard'  // Set the role as Seller for the Seller class
         );
     }

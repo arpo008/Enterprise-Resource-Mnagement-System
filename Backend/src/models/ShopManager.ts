@@ -21,7 +21,6 @@ export class ShopManager extends User implements TaskManagement, Observable, Per
             user.age,
             user.salary,
             user.password,
-            user.image,
             "Shop Manager"
         );
     }

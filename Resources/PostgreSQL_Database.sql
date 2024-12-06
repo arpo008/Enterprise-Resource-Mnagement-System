@@ -8,7 +8,6 @@ CREATE TABLE users (
     telephone VARCHAR(15),
     age INT,
     salary DECIMAL(10, 2),
-    image bytea,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(100),  -- Column to specify user types like 'Admin', 'HR Manager', 'Product Manager', etc.
     status VARCHAR(10) DEFAULT 'active'  -- New column for status (active/inactive)
@@ -18,12 +17,11 @@ CREATE TABLE users (
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
     assigned_to INT REFERENCES users(user_id),
-    assigned_by INT REFERENCES users(user_id),
     description TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
-    due_date DATE,
-    status VARCHAR(50)
+    status VARCHAR(50) DEFAULT 'accepted'  -- New column for task status
 );
+
 CREATE TABLE performance_reports (
     report_id SERIAL PRIMARY KEY,
     employee_id INT REFERENCES users(user_id),
@@ -37,8 +35,7 @@ CREATE TABLE products (
     name VARCHAR(255) NOT NULL,
     price DECIMAL(10, 2) CHECK (price >= 0),
     category VARCHAR(255),
-    stock_quantity INT CHECK (stock_quantity >= 0),  -- Adding a check constraint for non-negative stock quantities
-    image bytea,  -- Storing images as binary data
+    stock_quantity INT CHECK (stock_quantity >= 0), 
     created_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITHOUT TIME ZONE DEFAULT NOW()
 );
@@ -67,18 +64,16 @@ CREATE TABLE attendance (
     status VARCHAR(50) DEFAULT 'active' -- 'active' means the employee is still logged in, 'completed' means they've logged out
 );
 
-INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, image, role, password)
+INSERT INTO users (first_name, last_name, address, gender, dob, telephone, age, salary, role, password)
 VALUES 
-('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, '\\x89504e470d0a1a0a...', 'Admin', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
-('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, '\\x89504e470d0a1a0a...', 'HR Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
-('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, '\\x89504e470d0a1a0a...', 'Product Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06');
+('Alice', 'Smith', '123 Main St, Cityville', 'F', '1990-05-15', '123-456-7890', 34, 75000.50, 'Admin', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
+('Bob', 'Johnson', '456 Elm St, Townsville', 'M', '1985-09-10', '234-567-8901', 39, 65000.00, 'HR Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
+('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, 'Product Manager', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06'),
+('Charlie', 'Brown', '789 Maple St, Villagetown', 'M', '1992-12-05', '345-678-9012', 31, 55000.75, 'Seller', '$2b$10$TVUYSV63PgdguQf16yXjIeKL/pLdt905U515z3iclYSje0e6F3B06');
 
-
-INSERT INTO tasks (assigned_to, assigned_by, description, created_at, due_date, status)
+INSERT INTO tasks (assigned_to, description, created_at, status)
 VALUES 
-(1, 2, 'Prepare quarterly financial report', '2024-11-01 10:00:00', '2024-11-30', 'In Progress'),
-(2, 1, 'Organize company training session', '2024-11-05 09:30:00', '2024-11-20', 'Pending'),
-(3, 1, 'Review new product design', '2024-11-10 14:00:00', '2024-12-05', 'Completed');
+(4, 'Samner baranda ta poriskar koro', '2024-12-06 10:00:00', 'In Progress');
 
 INSERT INTO performance_reports (employee_id, reported_by, review_date, score, notes)
 VALUES 
@@ -86,11 +81,11 @@ VALUES
 (2, 1, '2024-11-05', 90, 'Excellent management of HR activities.'),
 (3, 1, '2024-11-10', 75, 'Needs to focus more on meeting project deadlines.');
 
-INSERT INTO products (name, price, category, stock_quantity, image, created_at, updated_at)
+INSERT INTO products (name, price, category, stock_quantity, created_at, updated_at)
 VALUES 
-('Laptop', 1200.00, 'Electronics', 50, '\\x89504e470d0a1a0a...', '2024-10-01 12:00:00', '2024-10-01 12:00:00'),
-('Desk Chair', 150.50, 'Furniture', 200, '\\x89504e470d0a1a0a...', '2024-10-05 15:30:00', '2024-10-05 15:30:00'),
-('Wireless Mouse', 25.99, 'Accessories', 300, '\\x89504e470d0a1a0a...', '2024-10-10 10:00:00', '2024-10-10 10:00:00');
+('Laptop', 1200.00, 'Hardware', 50, '2024-10-01 12:00:00', '2024-10-01 12:00:00'),
+('Desk Chair', 150.50, 'Other', 200, '2024-10-05 15:30:00', '2024-10-05 15:30:00'),
+('Wireless Mouse', 25.99, 'Hardware', 300, '2024-10-10 10:00:00', '2024-10-10 10:00:00');
 
 INSERT INTO sales_records (sold_by, sale_date, total_amount)
 VALUES 

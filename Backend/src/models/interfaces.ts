@@ -31,15 +31,28 @@ export interface Products {
     "id": number;
     "quantity": number;
   }
+
+export interface RegisterMessage {
+    type: 'register';
+    userId: string;
+    role: string;
+  }
+  
+  export interface Message {
+    type: 'message';
+    senderId: string;
+    targetRole: string;
+    content: string;
+  }
   
 
 //   for admin and product manager
 export interface ProductManagement {
-    addProduct(name: String, price: number, category: string, quantity: number, image: Buffer): Promise<Object>;
+    addProduct(name: String, price: number, category: string, quantity: number): Promise<Object>;
     removeProduct(id: number): Promise<Object>;
     updateQuantity(id: number, quantity: number): Promise<Object>;
     getAllProducts(): Promise<Object>;
-    updateProduct(id: number, name: string, price: number, category: string, quantity: number, image: Buffer | null): Promise<Object>
+    updateProduct(id: number, name: string, price: number, category: string, quantity: number): Promise<Object>
     getDailySalesBetweenDates (startDate: string, endDate: string): Promise<Object>
 }
 

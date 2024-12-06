@@ -18,7 +18,6 @@ export class HRmanager extends User implements UserManagement, PerformanceManage
             user.age,
             user.salary,
             user.password,
-            user.image,
             "HR Manager"  // Set the role as Admin for the Admin class
         );
     }
@@ -29,8 +28,8 @@ export class HRmanager extends User implements UserManagement, PerformanceManage
             return {'message': 'You cannot add an Admin'};
         }
 
-        const { first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role} = user;
-        const values = [first_name, last_name, address, gender, dob, telephone, age, salary, image, password, role];
+        const { first_name, last_name, address, gender, dob, telephone, age, salary, password, role} = user;
+        const values = [first_name, last_name, address, gender, dob, telephone, age, salary, password, role];
             
         const db = DatabaseSingleton.getInstance().getClient();
         const result = await db.query(insertNewUser, values);

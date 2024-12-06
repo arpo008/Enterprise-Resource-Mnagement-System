@@ -8,8 +8,7 @@ export class User {
     telephone: string;
     age: number;
     salary: number;
-    password: string;  // Adding password property to the User class
-    image: Buffer | null;  // Assuming the image is stored as a binary data
+    password: string;  // Assuming the image is stored as a binary data
     role: string;
 
     constructor(
@@ -22,8 +21,7 @@ export class User {
         telephone: string = '',
         age: number = 0,
         salary: number = 0.0,
-        password: string = '',  // Default password value
-        image: Buffer | null = null,
+        password: string = '',
         role: string = 'user'
     ) {
         this.user_id = user_id;  // user_id is auto-assigned by the database
@@ -35,8 +33,7 @@ export class User {
         this.telephone = telephone;
         this.age = age;
         this.salary = salary;
-        this.password = password;  // Assigning the password
-        this.image = image;
+        this.password = password;
         this.role = role;
     }
 }
@@ -51,8 +48,7 @@ export class UserBuilder {
     private telephone: string = 'Not provided';
     private age: number = 0;
     private salary: number = 0.0;
-    private password: string = 'Not provided';  // Adding password property to the User class
-    private image: Buffer = Buffer.alloc(0);  // Assuming the image is stored as a binary data
+    private password: string = 'Not provided';  // Assuming the image is stored as a binary data
     private role: string = 'user';
 
     setId(user_id: number): UserBuilder {
@@ -99,11 +95,6 @@ export class UserBuilder {
         this.salary = salary;
         return this;
     }
-        
-    setImage(image: Buffer): UserBuilder {
-        this.image = image;
-        return this;
-    }
 
     setPassword(password: string): UserBuilder {
         this.password = password;
@@ -116,6 +107,6 @@ export class UserBuilder {
     }
 
     build(): User {
-        return new User (this.user_id, this.first_name, this.last_name, this.address, this.gender, this.dob, this.telephone, this.age, this.salary, this.password, this.image,  this.role);  // Return the fully constructed User object
+        return new User (this.user_id, this.first_name, this.last_name, this.address, this.gender, this.dob, this.telephone, this.age, this.salary, this.password, this.role);  // Return the fully constructed User object
     }
 }

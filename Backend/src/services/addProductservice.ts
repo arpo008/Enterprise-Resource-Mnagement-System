@@ -18,7 +18,6 @@ const addProductSchema = z.object({
     "price": z.number(),
     "category": z.string(),
     "quantity": z.number(),
-    "image": z.union([z.instanceof(Buffer), z.null()]), 
 });
 
 export class addProductService {
@@ -42,7 +41,7 @@ export class addProductService {
             }
 
             const parsedBody = addProductSchema.parse(req.body);
-            let { name, price, category, quantity, image } = parsedBody;
+            let { name, price, category, quantity} = parsedBody;
 
 
             const userBuilder = new UserBuilder()
@@ -59,7 +58,7 @@ export class addProductService {
                 return;
             }
 
-            admin?.addProduct(name, price, category, quantity, image).then((result) => {
+            admin?.addProduct(name, price, category, quantity).then((result) => {
                 res.status(200).json(result);
             }
             ).catch((error : any) => {

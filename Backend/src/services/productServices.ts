@@ -25,7 +25,6 @@ const ProductSchema = z.object({
     "price": z.number(),
     "category": z.string(),
     "quantity": z.number(),
-    "image": z.union([z.instanceof(Buffer), z.null()]), 
 });
 
 const getProductSalesSchema = z.object({
@@ -190,7 +189,7 @@ export class productService {
             }
 
             const parsedBody = ProductSchema.parse(req.body);
-            let { id, name, price, category, quantity, image} = parsedBody;
+            let { id, name, price, category, quantity} = parsedBody;
 
             const userBuilder = new UserBuilder()
                     .setId(tokenVerified.user_id)
@@ -206,7 +205,7 @@ export class productService {
                 return;
             }
 
-            admin?.updateProduct(id, name, price, category, quantity, image).then((result) => {
+            admin?.updateProduct(id, name, price, category, quantity).then((result) => {
                 res.status(200).json(result);
             }
             ).catch((error : any) => {
@@ -452,6 +451,5 @@ async getProductSales(req: Request, res: Response): Promise<void> {
     }
 }
 
-    
 }
 
