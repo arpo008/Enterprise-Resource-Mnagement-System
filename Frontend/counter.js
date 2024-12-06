@@ -86,12 +86,14 @@ const displayProducts = (products) => {
                 <p class="text-gray-600">Category: ${product.category}</p>
                 <p class="text-gray-600">Price: $${product.price}</p>
                 <p class="text-gray-600">Stock Quantity: ${product.stock_quantity}</p>
+               
                 <div class="flex justify-between mt-4">
                     <!-- Buttons and quantity input -->
                     <button class="btn btn-secondary" onclick="decrementQuantity(${product.product_id})">-</button>
                     <input type="number" id="quantity-${product.product_id}" class="input input-bordered w-20 text-center" value="1" min="1" max="${product.stock_quantity}">
                     <button class="btn btn-primary" onclick="incrementQuantity(${product.product_id}, ${product.stock_quantity})">+</button>
                 </div>
+                
                 <div class="flex justify-center mt-4">
                     <button class="btn btn-primary" onclick="manualAddToCart(${product.product_id}, '${product.name}', ${product.price}, ${product.stock_quantity})">Add to Cart</button>
                 </div>

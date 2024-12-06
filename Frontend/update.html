@@ -1,38 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Product</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+    <!-- DaisyUI -->
+    
 </head>
-<body>
-    <h1>Update Product</h1>
-    <form id="updateForm">
-        <label for="id">Product ID:</label>
-        <input type="number" id="id" required>
 
-        <label for="category">Category:</label>
-        <select id="category" required>
-            <option value="Halal Meat">Halal Meat</option>
-            <option value="Hardware">Hardware</option>
-            <option value="Software">Software</option>
-            <option value="Haram Meat">Haram Meat</option>
-            <option value="Grocery Product">Grocery Product</option>
-            <option value="Other">Other</option>
-        </select>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="w-full max-w-md bg-white shadow-lg rounded-lg p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Update Product</h1>
+        <form id="updateForm" class="space-y-4">
+            <!-- Product ID -->
+            <div>
+                <label for="id" class="block text-sm font-medium text-gray-700">Product ID</label>
+                <input type="number" id="id" required
+                    class="input input-bordered w-full mt-1 text-gray-800" placeholder="Enter Product ID">
+            </div>
 
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
+            <!-- Category -->
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                <select id="category" required
+                    class="select select-bordered w-full mt-1 text-gray-800">
+                    <option value="Halal Meat">Halal Meat</option>
+                    <option value="Hardware">Hardware</option>
+                    <option value="Software">Software</option>
+                    <option value="Haram Meat">Haram Meat</option>
+                    <option value="Grocery Product">Grocery Product</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
 
-        <label for="price">Price:</label>
-        <input type="number" id="price" required>
+            <!-- Name -->
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                <input type="text" id="name" required
+                    class="input input-bordered w-full mt-1 text-gray-800" placeholder="Enter Product Name">
+            </div>
 
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" required>
+            <!-- Price -->
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
+                <input type="number" id="price" required
+                    class="input input-bordered w-full mt-1 text-gray-800" placeholder="Enter Product Price">
+            </div>
 
+<<<<<<< HEAD
+            <!-- Quantity -->
+            <div>
+                <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                <input type="number" id="quantity" required
+                    class="input input-bordered w-full mt-1 text-gray-800" placeholder="Enter Product Quantity">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+                <button type="submit"
+                    class="btn btn-primary w-full bg-blue-500 hover:bg-blue-600 text-white font-medium">
+                    Update Product
+                </button>
+            </div>
+        </form>
+    </div>
+=======
         <button type="submit">Update Product</button>
     </form>
+>>>>>>> b852e04de2aca34db6f79ecbcbf4e43cab411dbe
 
     <script src="update.js"></script>
 </body>
+
 </html>
