@@ -7,7 +7,6 @@ document.querySelector('#updateForm').addEventListener('submit', async (event) =
     const name = document.querySelector('#name').value;
     const price = document.querySelector('#price').value;
     const quantity = document.querySelector('#quantity').value;
-    const image = document.querySelector('#image').files[0];  // Capture the image file
 
     // Validate if all fields are filled
     if (!id || !category || !name || !price || !quantity) {
@@ -22,13 +21,6 @@ document.querySelector('#updateForm').addEventListener('submit', async (event) =
     formData.append('name', name);     // Append name
     formData.append('price', price);   // Append price
     formData.append('quantity', quantity); // Append quantity
-
-    // If an image is selected, append it to FormData
-    if (image) {
-        formData.append('image', image);  // Append the image file
-    } else {
-        formData.append('image', null);   // If no image is selected, append null
-    }
 
     const API_URL = 'http://localhost:3000/api/updateProduct';
     const authToken = localStorage.getItem('auth_token');  // Retrieve auth token from localStorage

@@ -1,5 +1,5 @@
 async function searchAttendance() {
-    const userId = parseInt(document.getElementById("userId").value, 10); // Ensure user_id is a number
+    const userId = parseInt(document.getElementById("userId").value, 10); 
     const startingDate = document.getElementById("startingDate").value;
     const endingDate = document.getElementById("endingDate").value;
 
@@ -12,7 +12,7 @@ async function searchAttendance() {
     // Prepare request payload
     const requestPayload = {
         user_id: userId,
-        Starting: startingDate, // API expects "YYYY-MM-DD" format directly from the date input
+        Starting: startingDate, 
         Ending: endingDate
     };
 
