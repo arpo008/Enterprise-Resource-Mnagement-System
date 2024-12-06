@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+</head>
+<body>
+    <h1>Update Product</h1>
+    <form id="updateForm">
+        <label for="id">Product ID:</label>
+        <input type="number" id="id" required>
+
+        <label for="category">Category:</label>
+        <select id="category" required>
+            <option value="Halal Meat">Halal Meat</option>
+            <option value="Hardware">Hardware</option>
+            <option value="Software">Software</option>
+            <option value="Haram Meat">Haram Meat</option>
+            <option value="Grocery Product">Grocery Product</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" required>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" required>
+
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" required>
+
+        <label for="image">Image:</label>
+        <input type="file" id="image">
+
+        <button type="submit">Update Product</button>
+    </form>
+
+    <script src="update.js"></script>
+</body>
+</html>

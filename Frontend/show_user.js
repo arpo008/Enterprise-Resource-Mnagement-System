@@ -75,9 +75,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td class="py-3 px-5 border-b"><strong>Role:</strong></td>
                     <td class="py-3 px-5 border-b">${user.role}</td>
                 </tr>
-                <tr>
+                <tr class="p-10">
                     <td class="py-3 px-5 border-b"><strong>Image:</strong></td>
-                    <td class="py-3 px-5 border-b"><img src="${imageBase64}" alt="${user.first_name} ${user.last_name}" class="max-w-md rounded-lg shadow-md"></td>
+                    <td class="py-3 px-5 border-b">
+                        <img src="${imageBase64}" alt="${user.first_name} ${user.last_name}" class="w-64 h-auto rounded-lg shadow-md"> <!-- Adjusted image size -->
+                    </td>
                 </tr>
             `;
         } else {
@@ -93,5 +95,5 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Function to go back to the search page
 function goBack() {
-    window.location.href = 'find_user.html'; // Redirect to the search page
+    window.location.href = 'find_user.html'; //
 }
