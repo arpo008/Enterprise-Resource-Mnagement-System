@@ -4,23 +4,19 @@ document.querySelector('#updateForm').addEventListener('submit', async (event) =
     const id = parseInt(document.querySelector('#id').value, 10);
     const category = document.querySelector('#category').value;
     const name = document.querySelector('#name').value;
-<<<<<<< HEAD
     const price = parseFloat(document.querySelector('#price').value);
     const quantity = parseInt(document.querySelector('#quantity').value, 10);
-=======
-    const price = document.querySelector('#price').value;
-    const quantity = document.querySelector('#quantity').value;
->>>>>>> b852e04de2aca34db6f79ecbcbf4e43cab411dbe
+
+   
 
     if (!id || !category || !name || !price || !quantity) {
         alert('Please fill in all the required fields.');
         return;
     }
 
-<<<<<<< HEAD
     const payload = { id, category, name, price, quantity };
     console.log('Payload being sent:', JSON.stringify(payload));
-=======
+
     // Create a FormData object
     const formData = new FormData();
     formData.append('id', id);          // Append ID
@@ -28,7 +24,7 @@ document.querySelector('#updateForm').addEventListener('submit', async (event) =
     formData.append('name', name);     // Append name
     formData.append('price', price);   // Append price
     formData.append('quantity', quantity); // Append quantity
->>>>>>> b852e04de2aca34db6f79ecbcbf4e43cab411dbe
+
 
     const API_URL = 'http://localhost:3000/api/updateProduct';
     const authToken = localStorage.getItem('auth_token');

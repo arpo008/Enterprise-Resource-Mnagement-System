@@ -63,7 +63,7 @@ async function fetchAndDisplayUsers() {
                 <td class="text-center">${user.first_name}</td>
                 <td class="text-center">${user.last_name}</td>
                 <td class="text-center">
-                    <button class="btn btn-danger" onclick="deleteUser (${user.user_id})">Delete</button>
+                    <button class="btn btn-danger" onclick="deleteUser (${user.user_id})">Toggle</button>
                 </td>
             `;
             tableBody.appendChild(row);
