@@ -34,8 +34,8 @@ export class addUserService {
                 const userBuilder = new UserBuilder()
                     .setFirstName(req.body.first_name)
                     .setLastName(req.body.last_name)
-                    .setAddress(req.body.address)
-                    .setGender(req.body.gender)
+                    // .setAddress(req.body.address)
+                    // .setGender(req.body.gender)
                     .setDOB(new Date(req.body.dob))  // Ensuring date conversion
                     .setTelephone(req.body.telephone)
                     .setAge(req.body.age)

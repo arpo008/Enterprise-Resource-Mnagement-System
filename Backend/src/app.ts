@@ -22,7 +22,7 @@
 
 import express, { Express } from 'express';
 import bodyParser from 'body-parser';
-import userRoutes from './api/userRoutes';
+import userRoutes from './API/userRoutes';
 import cors from 'cors';
 import { WebSocketServer } from 'ws'; 
 

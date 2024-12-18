@@ -57,7 +57,7 @@
             </div>
             <div class="flex-1">
                 <div class="w-10/12 grid grid-cols-4 gap-4 pl-48">
-                    <div class="card card-compact bg-white shadow-lg rounded-lg"> 
+                    <!-- <div class="card card-compact bg-white shadow-lg rounded-lg"> 
                         <figure> <img src="../Resources/complete_task.jpg" alt="Complete a Task"> </figure> 
                         <div class="card-body"> 
                             <h2 class="card-title">Complete a Task</h2> 
@@ -65,7 +65,7 @@
                                 <button class="btn btn-primary">Complete</button> 
                             </div> 
                         </div> 
-                    </div> 
+                    </div>  -->
                     <div class="card card-compact bg-white shadow-lg rounded-lg"> 
                         <figure> <img src="../Resources/payment_option.jpg" alt="Do Payment Options"> </figure> 
                         <div class="card-body"> <h2 class="card-title">Counter</h2> 
@@ -77,6 +77,58 @@
             </div>
         </div>
     </section>
+    <script>
+        // Establish WebSocket connection
+        const ws = new WebSocket('ws://localhost:3000'); // Replace with your WebSocket server URL
+    
+        // Declare the userId and role
+        const userId = 'user12';  // Example userId
+        const role = 'Seller';    // Example role
+    
+        // When the WebSocket connection is open
+        ws.onopen = () => {
+            console.log('Connected to WebSocket server');
+            registerUser(userId, role);  // Register user with their userId and role
+        };
+
+        
+    
+        // Register user with their userId and role
+        function registerUser(userId, role) {
+            const registerMessage = {
+                type: 'register',  // Define the action type as 'register'
+                userId: userId,    // Use the userId passed to the function
+                role: role         // Use the role passed to the function
+            };
+    
+            console.log('Sending registration message:', registerMessage);  // For debugging
+            ws.send(JSON.stringify(registerMessage));  // Send the registration message to the server
+        }
+    
+        // Listen for incoming messages
+        ws.onmessage = (event) => {
+            const message = JSON.parse(event.data); // Parse the incoming message
+            
+            // Handle different types of messages based on the message type
+            if (message.type === 'message') {  // Check if the message type is 'message'
+                alert(`New message: ${message.content}`); // Show the message in an alert box
+            }
+            // You can add more conditions here to handle other types of messages if needed
+        };
+    
+        // Error handling
+        ws.onerror = (error) => {
+            console.error('WebSocket Error:', error);
+        };
+    
+        // Close the connection
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+    </script>
+    
+    
+    
     <script src="logout.js"></script>
 </body>
 </html>
